@@ -46,3 +46,11 @@ services:
       depends_on:
         - php
         - mysqldb
+
+    maildev:
+      image: maildev/maildev
+      container_name: maildevCTN
+      command: bin/maildev --web 1080 --smtp 1025 --hide-extensions STARTTLS
+      ports:
+        - "1080:1080"
+      restart: always
