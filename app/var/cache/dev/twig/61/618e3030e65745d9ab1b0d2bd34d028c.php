@@ -77,6 +77,6 @@ class __TwigTemplate_ecee1bb24d82ee4f316dcfe9fe4a1b35 extends Template
     <path d=\"M12 20l4 -9l4 9\"></path>
     <path d=\"M19.1 18h-6.2\"></path>
 </svg>
-", "@WebProfiler/Icon/translation.svg", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Icon/translation.svg");
+", "@WebProfiler/Icon/translation.svg", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Icon/translation.svg");
     }
 }

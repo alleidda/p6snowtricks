@@ -15,8 +15,14 @@ return [
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
+        '/inscription' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegistrationController::register'], null, null, null, false, false, null]],
+        '/renvoiverif' => [[['_route' => 'resend_verif', '_controller' => 'App\\Controller\\RegistrationController::resendVerif'], null, null, null, false, false, null]],
+        '/connexion' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\SecurityController::login'], null, null, null, false, false, null]],
+        '/deconnexion' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\SecurityController::logout'], null, null, null, false, false, null]],
+        '/oubli-pass' => [[['_route' => 'forgotten_password', '_controller' => 'App\\Controller\\SecurityController::forgottenPassword'], null, null, null, false, false, null]],
         '/tricks' => [[['_route' => 'tricks_all', '_controller' => 'App\\Controller\\TricksController::index'], null, null, null, false, false, null]],
         '/tricks/1' => [[['_route' => 'tricks_display', '_controller' => 'App\\Controller\\TricksController::display'], null, null, null, false, false, null]],
+        '/tricks/add' => [[['_route' => 'tricks_add', '_controller' => 'App\\Controller\\TricksController::add'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -35,6 +41,8 @@ return [
                         .'|(*:159)'
                     .')'
                 .')'
+                .'|/verif/([^/]++)(*:184)'
+                .'|/oubli\\-pass/([^/]++)(*:213)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -44,8 +52,10 @@ return [
         116 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
         136 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         149 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        159 => [
-            [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
+        159 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
+        184 => [[['_route' => 'verify_user', '_controller' => 'App\\Controller\\RegistrationController::verifyUser'], ['token'], null, null, false, true, null]],
+        213 => [
+            [['_route' => 'reset_pass', '_controller' => 'App\\Controller\\SecurityController::resetPass'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

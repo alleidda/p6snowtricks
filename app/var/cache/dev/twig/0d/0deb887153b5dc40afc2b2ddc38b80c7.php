@@ -75,6 +75,6 @@ class __TwigTemplate_8fa9d02ca90f1a9ad46eca38b88993e9 extends Template
   <path d=\"M18 20l3 -3l-3 -3\"></path>
   <line x1=\"21\" y1=\"7\" x2=\"3\" y2=\"7\"></line>
 </svg>
-", "@WebProfiler/Icon/serializer.svg", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Icon/serializer.svg");
+", "@WebProfiler/Icon/serializer.svg", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Icon/serializer.svg");
     }
 }

@@ -299,6 +299,6 @@ class __TwigTemplate_9a2a219eec1d9f04d591460b63668ca4 extends Template
         {{- form_rest(form) -}}
     </table>
 {%- endblock form_widget_compound -%}
-", "form_table_layout.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/twig-bridge/Resources/views/Form/form_table_layout.html.twig");
+", "form_table_layout.html.twig", "/var/www/snowtricksapp/vendor/symfony/twig-bridge/Resources/views/Form/form_table_layout.html.twig");
     }
 }

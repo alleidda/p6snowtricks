@@ -155,6 +155,6 @@ class __TwigTemplate_ed2ef39753f2c4c978961682c13da3f0 extends Template
 {% block panel %}
     {{ render(controller('web_profiler.controller.router::panelAction', { token: token })) }}
 {% endblock %}
-", "@WebProfiler/Collector/router.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Collector/router.html.twig");
+", "@WebProfiler/Collector/router.html.twig", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Collector/router.html.twig");
     }
 }

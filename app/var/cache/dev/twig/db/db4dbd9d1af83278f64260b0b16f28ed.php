@@ -243,6 +243,6 @@ class __TwigTemplate_0ccaae5c8c0da6a06b09d4db1dace5da extends Template
         </div>
     {% endif %}
 {% endblock %}
-", "@WebProfiler/Collector/exception.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Collector/exception.html.twig");
+", "@WebProfiler/Collector/exception.html.twig", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Collector/exception.html.twig");
     }
 }

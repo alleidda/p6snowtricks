@@ -393,6 +393,6 @@ class __TwigTemplate_7a75ae797325d014b2e26cb09055066f extends Template
 
     </div>
     
-</div>", "tricks/_tricks.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/tricks/_tricks.html.twig");
+</div>", "tricks/_tricks.html.twig", "/var/www/snowtricksapp/templates/tricks/_tricks.html.twig");
     }
 }

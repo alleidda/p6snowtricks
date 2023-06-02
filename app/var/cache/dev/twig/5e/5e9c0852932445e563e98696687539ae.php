@@ -434,6 +434,6 @@ class __TwigTemplate_6ece9cc7b4f7f3543cc95c317026ddea extends Template
     {%- set widget_class = widget_class|default('mr-2') -%}
     {{- parent() -}}
 {%- endblock radio_widget -%}
-", "tailwind_2_layout.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/twig-bridge/Resources/views/Form/tailwind_2_layout.html.twig");
+", "tailwind_2_layout.html.twig", "/var/www/snowtricksapp/vendor/symfony/twig-bridge/Resources/views/Form/tailwind_2_layout.html.twig");
     }
 }

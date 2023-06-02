@@ -122,6 +122,6 @@ class __TwigTemplate_b4a7edac4ba41e8891808b808f1f2603 extends Template
         {% endfor %}
     </tbody>
 </table>
-", "@WebProfiler/Profiler/table.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/table.html.twig");
+", "@WebProfiler/Profiler/table.html.twig", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Profiler/table.html.twig");
     }
 }

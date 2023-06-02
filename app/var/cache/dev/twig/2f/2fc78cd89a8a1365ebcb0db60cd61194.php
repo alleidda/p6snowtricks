@@ -447,6 +447,6 @@ class __TwigTemplate_495f622beeb56eee33cabcfb7db28148 extends Template
         </div>
     {% endif %}
 {% endblock %}
-", "@WebProfiler/Collector/twig.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Collector/twig.html.twig");
+", "@WebProfiler/Collector/twig.html.twig", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Collector/twig.html.twig");
     }
 }

@@ -619,6 +619,6 @@ class __TwigTemplate_fe19c9f495d20f076c3a801e1d41d6f0 extends Template
     <script>
      
     </script>
-{% endblock %}", "home/index.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/home/index.html.twig");
+{% endblock %}", "home/index.html.twig", "/var/www/snowtricksapp/templates/home/index.html.twig");
     }
 }

@@ -75,6 +75,6 @@ class __TwigTemplate_15fc5e8ffddfb59ed14cb83d5489d2cd extends Template
     <path d=\"M9 8h4\"></path>
     <path d=\"M9 12h2\"></path>
 </svg>
-", "@WebProfiler/Icon/validator.svg", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Icon/validator.svg");
+", "@WebProfiler/Icon/validator.svg", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Icon/validator.svg");
     }
 }

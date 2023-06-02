@@ -1542,6 +1542,6 @@ $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBl
         {% if form is not rootform %}</small>{% else %}</div>{% endif %}
     {%- endif %}
 {%- endblock form_errors %}
-", "foundation_5_layout.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/twig-bridge/Resources/views/Form/foundation_5_layout.html.twig");
+", "foundation_5_layout.html.twig", "/var/www/snowtricksapp/vendor/symfony/twig-bridge/Resources/views/Form/foundation_5_layout.html.twig");
     }
 }

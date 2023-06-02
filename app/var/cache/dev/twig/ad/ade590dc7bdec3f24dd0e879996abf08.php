@@ -72,9 +72,16 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                     <i class=\"fas fa-list\"></i>
                     Liste des tricks</a>
             </li>
-           
+                ";
+        // line 21
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 21, $this->source); })()), "user", [], "any", false, false, false, 21)) {
+            // line 22
+            echo "           
                 <li class=\"nav-item\">
-                    <a href=\"\" class=\"nav-link\">
+                    <a href=\"";
+            // line 24
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("tricks_add");
+            echo "\" class=\"nav-link\">
                         <i class=\"fas fa-plus\"></i>
                         Ajouter un trick</a>
                 </li>
@@ -84,24 +91,20 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                             <i class=\"fas fa-chart-line\"></i>
                             Admin Dashboard</a>
                     </li>
-              
+                    ";
+        }
+        // line 35
+        echo "              
         </ul>
 
-
             <ul class=\"navbar-nav\">
-                
-                    <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"\">
-                            <i class=\"fas fa-sign-in-alt\"></i>
-                            Connexion</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"\" class=\"nav-link\">
-                            <i class=\"fas fa-user-plus\"></i>
-                            Inscription</a>
-                    </li>
-               
-                    <li class=\"nav-item dropdown\">
+            
+                    
+               ";
+        // line 41
+        if (twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 41, $this->source); })()), "user", [], "any", false, false, false, 41)) {
+            // line 42
+            echo "                    <li class=\"nav-item dropdown\">
                         <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
                             <img src=\"\" alt=\"\" class=\"profile-micro\">
                             Mon compte
@@ -114,12 +117,37 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                                 <i class=\"fas fa-lock\"></i>
                                 Modifier mon mot de passe</a>
                             <div class=\"dropdown-divider\"></div>
-                            <a class=\"dropdown-item\" href=\"\">
+                            <a class=\"dropdown-item\"  href=\"";
+            // line 55
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+            echo "\">
                                 <i class=\"fas fa-sign-out-alt\"></i>
                                 Se déconnecter</a>
                         </div>
                     </li>
-              
+                    ";
+        } else {
+            // line 61
+            echo "                    <li class=\"nav-item\">
+                        <a class=\"nav-link\"  href=\"";
+            // line 62
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
+            echo "\">
+                            <i class=\"fas fa-sign-in-alt\"></i>
+                            Connexion</a>
+                    </li>
+                    <li class=\"nav-item\">
+                        <a  href=\"";
+            // line 67
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
+            echo "\" class=\"nav-link\">
+                            <i class=\"fas fa-user-plus\"></i>
+                            Inscription</a>
+                    </li>
+                    ";
+        }
+        // line 72
+        echo "              
             </ul>
         </ul>
     </div>
@@ -144,7 +172,7 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
 
     public function getDebugInfo()
     {
-        return array (  70 => 17,  62 => 12,  50 => 3,  46 => 2,  43 => 1,);
+        return array (  150 => 72,  142 => 67,  134 => 62,  131 => 61,  122 => 55,  107 => 42,  105 => 41,  97 => 35,  83 => 24,  79 => 22,  77 => 21,  70 => 17,  62 => 12,  50 => 3,  46 => 2,  43 => 1,);
     }
 
     public function getSourceContext()
@@ -169,9 +197,10 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                     <i class=\"fas fa-list\"></i>
                     Liste des tricks</a>
             </li>
+                {% if app.user %}
            
                 <li class=\"nav-item\">
-                    <a href=\"\" class=\"nav-link\">
+                    <a href=\"{{ path(\"tricks_add\") }}\" class=\"nav-link\">
                         <i class=\"fas fa-plus\"></i>
                         Ajouter un trick</a>
                 </li>
@@ -181,23 +210,14 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                             <i class=\"fas fa-chart-line\"></i>
                             Admin Dashboard</a>
                     </li>
+                    {% endif %}
               
         </ul>
 
-
             <ul class=\"navbar-nav\">
-                
-                    <li class=\"nav-item\">
-                        <a class=\"nav-link\" href=\"\">
-                            <i class=\"fas fa-sign-in-alt\"></i>
-                            Connexion</a>
-                    </li>
-                    <li class=\"nav-item\">
-                        <a href=\"\" class=\"nav-link\">
-                            <i class=\"fas fa-user-plus\"></i>
-                            Inscription</a>
-                    </li>
-               
+            
+                    
+               {% if app.user %}
                     <li class=\"nav-item dropdown\">
                         <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
                             <img src=\"\" alt=\"\" class=\"profile-micro\">
@@ -211,15 +231,27 @@ class __TwigTemplate_5ff3beda554db29534a5b01068d7f7f4 extends Template
                                 <i class=\"fas fa-lock\"></i>
                                 Modifier mon mot de passe</a>
                             <div class=\"dropdown-divider\"></div>
-                            <a class=\"dropdown-item\" href=\"\">
+                            <a class=\"dropdown-item\"  href=\"{{ path('app_logout') }}\">
                                 <i class=\"fas fa-sign-out-alt\"></i>
                                 Se déconnecter</a>
                         </div>
                     </li>
+                    {% else %}
+                    <li class=\"nav-item\">
+                        <a class=\"nav-link\"  href=\"{{ path('app_login') }}\">
+                            <i class=\"fas fa-sign-in-alt\"></i>
+                            Connexion</a>
+                    </li>
+                    <li class=\"nav-item\">
+                        <a  href=\"{{ path('app_register') }}\" class=\"nav-link\">
+                            <i class=\"fas fa-user-plus\"></i>
+                            Inscription</a>
+                    </li>
+                    {% endif %}
               
             </ul>
         </ul>
     </div>
-</nav>", "partials/header.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/partials/header.html.twig");
+</nav>", "partials/header.html.twig", "/var/www/snowtricksapp/templates/partials/header.html.twig");
     }
 }

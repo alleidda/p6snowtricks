@@ -87,6 +87,6 @@ class __TwigTemplate_676ed9c94ef0996bd4cb06fff8fde34d extends Template
     <path d=\"M14 21v-2\"></path>
     <path d=\"M10 21v-2\"></path>
 </svg>
-", "@WebProfiler/Icon/memory.svg", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Icon/memory.svg");
+", "@WebProfiler/Icon/memory.svg", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Icon/memory.svg");
     }
 }

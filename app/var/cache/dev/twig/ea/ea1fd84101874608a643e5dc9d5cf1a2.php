@@ -140,6 +140,6 @@ class __TwigTemplate_784af2543b1cdb725a72ced386078845 extends Template
     {# ajouté pagination #}
     {# TODO  pagination selon des critères style Nombre de commentaire#}
 {% endblock %}
-", "tricks/index.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/tricks/index.html.twig");
+", "tricks/index.html.twig", "/var/www/snowtricksapp/templates/tricks/index.html.twig");
     }
 }

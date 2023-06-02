@@ -69,6 +69,6 @@ class __TwigTemplate_4fd15965bb2b119ab88df44f0bcfb84b extends Template
     <path stroke=\"none\" d=\"M0 0h24v24H0z\" fill=\"none\"></path>
     <path d=\"M5.5 5h13a1 1 0 0 1 .5 1.5l-5 5.5l0 7l-4 -3l0 -4l-5 -5.5a1 1 0 0 1 .5 -1.5\"></path>
 </svg>
-", "@WebProfiler/Icon/filter.svg", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/web-profiler-bundle/Resources/views/Icon/filter.svg");
+", "@WebProfiler/Icon/filter.svg", "/var/www/snowtricksapp/vendor/symfony/web-profiler-bundle/Resources/views/Icon/filter.svg");
     }
 }

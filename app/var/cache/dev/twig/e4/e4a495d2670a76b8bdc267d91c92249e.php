@@ -171,6 +171,6 @@ class __TwigTemplate_41ee33e4721dd6257bbec0449ec092bf extends Template
         {%- endfor -%}
     </pre>
 {% endif %}
-", "@Doctrine/Collector/explain.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/doctrine/doctrine-bundle/Resources/views/Collector/explain.html.twig");
+", "@Doctrine/Collector/explain.html.twig", "/var/www/snowtricksapp/vendor/doctrine/doctrine-bundle/Resources/views/Collector/explain.html.twig");
     }
 }

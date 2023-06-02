@@ -51,9 +51,9 @@ class __TwigTemplate_af694562c49453ba72c23c3d0f73aae3 extends Template
             <div class=\"col-12 py-5\">
                 <div class=\"text-center\">
                     <!-- Twitter -->
-                    <a class=\"tw-ic\" href=\"\">
+                   <!-- <a class=\"tw-ic\" href=\"\">
                         <i class=\"fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x\"> </i>
-                    </a>
+                    </a> -->
                     <!--Linkedin -->
                     <a class=\"li-ic\" href=\"\">
                         <i class=\"fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x\"> </i>
@@ -106,9 +106,9 @@ class __TwigTemplate_af694562c49453ba72c23c3d0f73aae3 extends Template
             <div class=\"col-12 py-5\">
                 <div class=\"text-center\">
                     <!-- Twitter -->
-                    <a class=\"tw-ic\" href=\"\">
+                   <!-- <a class=\"tw-ic\" href=\"\">
                         <i class=\"fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x\"> </i>
-                    </a>
+                    </a> -->
                     <!--Linkedin -->
                     <a class=\"li-ic\" href=\"\">
                         <i class=\"fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x\"> </i>
@@ -129,6 +129,6 @@ class __TwigTemplate_af694562c49453ba72c23c3d0f73aae3 extends Template
     <!-- Copyright -->
 
 </footer>
-<!-- Footer -->", "partials/footer.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/partials/footer.html.twig");
+<!-- Footer -->", "partials/footer.html.twig", "/var/www/snowtricksapp/templates/partials/footer.html.twig");
     }
 }

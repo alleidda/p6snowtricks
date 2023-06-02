@@ -345,6 +345,6 @@ class __TwigTemplate_5b594da6338a9a7bec74ead286e24f2e extends Template
         });
     </script>
 
-{% endblock %}", "tricks/display.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/templates/tricks/display.html.twig");
+{% endblock %}", "tricks/display.html.twig", "/var/www/snowtricksapp/templates/tricks/display.html.twig");
     }
 }

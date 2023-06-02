@@ -413,6 +413,6 @@ class __TwigTemplate_9aaa22f318fb1f335085cfd5a5d75d6b extends Template
         </div>
     {% endfor %}
 {% endblock %}
-", "@Debug/Profiler/dump.html.twig", "/home/addiella/Documents/Projects/symfony6-app/op/snowtricks/vendor/symfony/debug-bundle/Resources/views/Profiler/dump.html.twig");
+", "@Debug/Profiler/dump.html.twig", "/var/www/snowtricksapp/vendor/symfony/debug-bundle/Resources/views/Profiler/dump.html.twig");
     }
 }
