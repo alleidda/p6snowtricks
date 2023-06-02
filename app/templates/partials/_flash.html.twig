@@ -1,0 +1,11 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+     <div class="alert alert-{{label}} alert-dismissible fade show" role="alert">
+				<strong>{{ message|raw }}</strong>
+				<a href="{{ path('resend_verif') }}">Renvoyer le lien d'activation</a>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+    {% endfor %}
+{% endfor %}

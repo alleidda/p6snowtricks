@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des différents tricks!{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 class="h2 pb-5 text-center">Liste des différents tricks</h1>
+        <div class="row">
+                {% include 'tricks/_tricks.html.twig' %}
+        </div>
+    </div>
+
+    {# ajouté pagination #}
+    {# TODO  pagination selon des critères style Nombre de commentaire#}
+{% endblock %}
