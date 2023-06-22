@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de profile de {{ user.lastname }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="card">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card-title m-3 h3">{{ user.lastname }} {{ user.firstname }}</div>
+
+                    <div class="card-text m-3">
+
+
+
+                        {% if app.user %}
+                            <p>Adresse email : <br>
+                                {{ user.email }}</p>
+                            <hr>
+                        {% endif %}
+
+
+                        <p>Inscrit depuis : {{ user.createdAt|date('d-m-Y') }}</p>
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <img src="{{ asset(user.picture) }}" alt="Image de {{ user.firstName }} {{ user.lastName }}" class="img-thumbnail m-5 float-right user-profile">
+                </div>
+            </div>
+
+
+
+                {# {% if user.getTricks is not empty %}
+                    <h2 class="h4 p-3">Liste des tricks que {{ user.lastname }} a ajouté</h2>
+                    <table class="table table-hover">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        {% for trick in user.getTricks %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ trick.name }}</td>
+                                <td>{{ trick.category }}</td>
+                                <td> <img src="{{ asset(trick.mainImage) }}" alt="{{ trick.name }}" class="tricks-micro"> </td>
+                                <td>
+                                    <a href="{{ path('tricks_display', {'slug' : trick.slug} ) }}" class="btn btn-primary">Voir</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %} #}
+
+
+
+                {# {% if user.getComments is not empty %}
+                    <h2 class="h4 p-3">Liste des commentaires que {{ user.lastname }} a écrit</h2>
+                    <table class="table table-hover">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        {% for comment in user.getComments %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ comment.tricks.name }}</td>
+                                <td>{{ comment.content|slice(0,50) }} ...</td>
+                                <td>{{ comment.date|date('d/m/Y H:i') }}</td>
+                                <td>
+                                    <a href="{{ path('tricks_display', {'slug': comment.tricks.slug}) }}" class="btn btn-primary">Voir</a>
+                                    {% if app.user and app.user.id == app.request.attributes.get('id') %}
+                                    <a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-danger">Supprimer</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %} #}
+
+            {# <div class="card-link p-3">
+                {% if app.user and app.user.id == app.request.attributes.get('id') %}
+                    <a href="{{ path("account_update") }}" class="btn btn-success">Modifier le profile</a>
+                {% endif %}
+            </div> #}
+        </div>
+    </div>
+{% endblock %}
