@@ -7,10 +7,10 @@
     <div class="container">
         <h1 class="h2 pb-5 text-center">Liste des différents tricks</h1>
         <div class="row">
+            {% for trick in tricks %}
                 {% include 'tricks/_tricks.html.twig' %}
+            {% endfor %}
         </div>
     </div>
 
-    {# ajouté pagination #}
-    {# TODO  pagination selon des critères style Nombre de commentaire#}
 {% endblock %}

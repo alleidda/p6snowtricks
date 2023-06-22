@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Tricks's name{% endblock %}
+{% block title %}{{tricks.name}}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -8,79 +8,92 @@
             <div class="col-md-10 col-md-offset-1 mb-4">
 
                 <div class="card mt-5">
-                    <img class="display-top img-fluid" src="{{ asset('img/tricks7.jpg') }}" alt="">
+                    {# {% if tricks.image %}
+                        
+                   
+                    <img class="display-top img-fluid" src="{{ asset(tricks.image) }}" alt="">
+                     {% endif %} #}
                     <div class="card-body">
 
                         <ul class="list-inline trick-data">
                             <li class="list-inline-item">
-                                Par : <a target="" href="">Ajouté par : nom auteur</a>
+                                Par : <a target="" href="">Ajouté par : {{tricks.name}}r</a>
                             </li> |
                             <li class="list-inline-item">
-                                Ajouté le 17/02/2023 (<small>Mise à jour le : 18/02/2023 </small>)
+                                Ajouté le {{ tricks.createdAt | date('d/m/Y') }}  {% if tricks.updatedAt is not null %}(<small>Mise à jour le : {{ tricks.updatedAt | date('d/m/Y') }} </small>) {% endif %}
                             </li> |
                             <li class="list-inline-item">
-                                Catégorie : tricks category
+                                Catégorie : {{tricks.category.name}}
                             </li> |
                             <li class="list-inline-item">
                                 <a href="#comments-block"> commentaires</a>
                             </li>
                         </ul>
                         <hr>
-                        <!-- Start Carousel -->
-                       
-                                      {#  {% for image in tricks.images %}
-                                            <li data-target=".carousel" data-slide-to="{{ loop.index - 1 }}"  {% if loop.index == 0 %}class="active" {% endif %}></li>
-                                        {% endfor %}
-                                    </ol>
-                                    <div class="carousel-inner enlarge">
-                                        {% for image in tricks.images %}
-                                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                                <img class="d-block" src="{{ asset(image.path) }}" alt="Backflip-image-8">
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carousel_image" data-slide="prev">
-                                        <span class="carousel-control-prev-icon"></span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carousel_image" data-slide="next">
-                                        <span class="carousel-control-next-icon"></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div id="carousel_video" class="carousel slide mt-3 mb-2" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        {% for video in tricks.videos %}
-                                            <li data-target=".carousel" data-slide-to="{{ loop.index - 1 }}"  {% if loop.index == 0 %}class="active" {% endif %}></li>
-                                        {% endfor %}
-                                    </ol>
-                                    <div class="carousel-inner enlarge">
-                                        {% for video in tricks.videos %}
-                                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                                <iframe src="{{ video.video }}" allowfullscreen=""></iframe>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <a class="carousel-control-prev" href="#carousel_video" data-slide="prev">
-                                        <span class="carousel-control-prev-icon"></span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carousel_video" data-slide="next">
-                                        <span class="carousel-control-next-icon"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>#}
-                        <!-- End Carousel -->
+
+                         
+                           
+
                         <hr>
-                        <h4 class="card-title"><strong> tricks name </strong></h4>
+                        <h4 class="card-title"><strong> {{tricks.name}} </strong></h4>
                         <p class="card-text"></p>
                         <hr>
                         <hr>
-                        <p class="card-text text-justify">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
- </p>
+                        <p class="card-text text-justify">{{ tricks.description }}</p>
                     </div>
+
+
+                     <!-- Start Comments -->
+                <span class="comments-anchor" id="comments-block"></span>
+                <div class="col-md-12 bg-light">
+                    <div class="mb-3">
+                        <div class="border entry-comments">
+                            <ul class="entry-comments-list list-unstyled">
+                            {% if comments.data is defined%}
+                                {%  for comment in comments.data %}
+                                    <div class="row mb-3 pl-2 bg-light">
+                                        <span class="comment-anchor" id="{{ comment.id }}"></span>
+                                        <div class="col-3">
+                                             <img src=" {{asset('uploads/avatars/mini/300x300-') ~ comment.user.picture }} " class="user-profile" alt="">
+                                        </div>
+                                        <div class="col-9">
+                                            <p>{{ comment.content }}</p>
+                                            <p><span >par <a href="{{ path("user_profile",{'id': comment.user.id}) }}" >{{ comment.user.firstname }}</a></span>
+                                                <span>le {{ comment.createdAt|date('d/m/Y') }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                {% endfor %}
+                                 {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                   {% set path = 'tricks_display'%}
+                {% set slug = tricks.slug %}
+                {% set pages = comments.pages %}
+                {% set currentPage = comments.page %}
+                <div class="position-relative">
+                    {% include "partials/_pagination.html.twig" %}
                 </div>
+                </div>
+                {# <!-- End Comments -->
+
+                     <!-- Start Comments -->
+                     {% if comments.data is defined %}
+                {% for comment in comments.data %}
+                <div class="row p-3 bg-body rounded mb-3 shadow">
+                    <div class="col-auto">
+                        {% if comment.author.avatar %}
+                        <img src=""
+                            class="rounded-circle" style="max-width: 50px;" alt="{{trick.name}}">
+                        {% else %}
+                        <img src=" {{asset('assets/pictures/avatar.png')}} " alt="{{comment.author.username}}">
+                        {% endfor %}
+                        {% endif %}
+                          
+                           <!-- End Comments -->
+                </div> #}
 
 
 
