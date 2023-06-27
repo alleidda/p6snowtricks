@@ -65,11 +65,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Trick::class, orphanRemoval: true)]
+    private Collection $tricksUser;
+
 
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->tricksUser = new ArrayCollection();
     }
 
 
@@ -254,6 +258,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trick>
+     */
+    public function getTricksUser(): Collection
+    {
+        return $this->tricksUser;
+    }
+
+    public function addTricksUser(Trick $tricksUser): self
+    {
+        if (!$this->tricksUser->contains($tricksUser)) {
+            $this->tricksUser->add($tricksUser);
+            $tricksUser->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTricksUser(Trick $tricksUser): self
+    {
+        if ($this->tricksUser->removeElement($tricksUser)) {
+            // set the owning side to null (unless already changed)
+            if ($tricksUser->getUsers() === $this) {
+                $tricksUser->setUsers(null);
+            }
+        }
 
         return $this;
     }
