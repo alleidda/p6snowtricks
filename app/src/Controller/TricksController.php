@@ -2,19 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Comment;
 use App\Entity\Trick;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Form\CommentType;
+use App\Entity\Users;
+use App\Form\AddTrickFormType;
+use App\Entity\Comment;
+use App\Entity\Image;
 use App\Form\TricksType;
+use App\Form\CommentType;
 use App\Form\TricksUpdateType;
-use App\Repository\CommentRepository;
+use App\Service\PictureService;
+use App\Service\VideoLinkService;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TricksController extends AbstractController
 {
@@ -22,30 +28,150 @@ class TricksController extends AbstractController
     public function index(TrickRepository $tricks, ImageRepository $image): Response
     {
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks->findAll(),
+            'tricks' => $tricks->findAll()
         ]);
     }
+
+
     #[Route('/tricks/{slug}', name: 'tricks_display')]
-    public function display(Trick $trick, CommentRepository $commentRepository, Request $request): Response
+    public function display(Trick $trick, CommentRepository $commentsRepository, ImageRepository $image, Request $request): Response
     {
-      //  dd($trick->getComments());
+        //  dd($trick->getComments());
 
         //On va chercher le numéro de page dans l'url
         $page = $request->query->getInt('page', 1);
+        $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 10);
 
         //On va chercher la liste des produits de la catégorie
-        $comments = $commentRepository->findCommentPaginated($page, $trick->getSlug(), 4);
-       
+        $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 4);
+
+        $user = $this->getUser();
+
         return $this->render('tricks/display.html.twig', [
             'tricks' => $trick,
-            'comments' => $comments
+            'comments' => $trick->getComments(),
+            'images' => $trick->getImage(),
+            'user' => $trick->getUsers(),
+            
         ]);
     }
+
+
     #[Route('/trick/add', name: 'tricks_add')]
-    public function add(): Response
+    public function addTrick(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        PictureService $pictureService,
+        VideoLinkService $videoLinkService
+    ): Response {
+
+
+        $trick = new Trick();
+        // $this->denyAccessUnlessGranted('TRICK_ADD', $trick);
+        $form = $this->createForm(AddTrickFormType::class, $trick);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+
+            $slug = $slugger->slug($trick->getName());
+            $trick->setSlug($slug);
+            $trick->setUsers($user);
+
+            $entityManager->persist($trick);
+            $entityManager->flush();
+
+            $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService);
+
+
+            $this->addFlash('success', 'Figure ajoutée avec succès');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render(
+            'tricks/add.html.twig',
+            [
+                'form' => $form->createView()
+            ]
+        );
+    }
+
+
+    #[Route('tricks/slug/update', name: 'tricks_update')]
+
+    public function updateTrick(TrickRepository $tricks, ImageRepository $image): Response
     {
-        return $this->render('tricks/add.html.twig', [
-            'controller_name' => 'TricksController',
+        return $this->render('home/index.html.twig', [
+            'tricks' => $tricks->findAll(),
+            'image' => $image,
         ]);
+    }
+
+
+
+    #[Route('tricks/slug/delete', name: 'tricks_delete')]
+
+    public function deleteTrick(TrickRepository $tricks, ImageRepository $image): Response
+    {
+        return $this->render('home/index.html.twig', [
+            'tricks' => $tricks->findAll(),
+            'image' => $image,
+        ]);
+    }
+
+
+
+    #[Route('/suppression-figure/{slug}', name: 'delete_trick')]
+    public function delete(Trick $trick, EntityManagerInterface $entityManager, PictureService $pictureService): Response
+    {
+        // We check if the user can delete with the voter
+        // $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
+
+
+        foreach ($trick->getVideo() as $video) {
+            $trick->removeVideo($video);
+        }
+
+        foreach ($trick->getImage() as $media) {
+            $trick->removeImage($media);
+        }
+        foreach ($trick->getComments() as $comments) {
+            $trick->removeComment($comments);
+        }
+
+        $entityManager->remove($trick);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+    private function handleData($form, $pictureService, $trick, $entityManager, $videoLinkService)
+    {
+
+        $images = $form->get('images')->getData();
+
+        foreach ($images as $image) {
+            if($image == $images[0]) {
+                $main = true;
+            } else {
+                $main = false;
+            }
+
+            // We define the destination folder
+            $folder = 'tricks';
+            // We call the add service
+            $file = $pictureService->add($image, $folder, 300, 300);
+            $image = new Image();
+            $image->setName($trick->getName());
+            $image->setPath($file);
+           
+            $image->setIsMain($main);
+            $image->setTrick($trick);
+            $entityManager->persist($image);
+            $entityManager->flush();
+        }
     }
 }

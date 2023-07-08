@@ -9,13 +9,13 @@
             <div class="col">
                 <div class="p-3 mb-2 bg-light">
                      <h1 class="h2 pb-3 text-center">Ajout d'un trick</h1>
-                    {# {{ form_start(form) }}
+                    {{ form_start(form) }}
                     {{ form_row(form.name) }}
                     {{ form_row(form.description) }}
                     {{ form_row(form.category) }}
-                    {{ form_row(form.mainImage) }} #}
+                    {{ form_row(form.images) }}
                     <button type="submit" class="btn btn-success">Ajouter le tricks</button>
-                    {# {{ form_end(form) }} #}
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
