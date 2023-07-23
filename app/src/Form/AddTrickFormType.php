@@ -64,13 +64,20 @@ class AddTrickFormType extends AbstractType
 
 
             ->add(
-                'video', CollectionType::class, [
-                'entry_type' => VideosFormType::class,
+            /*     'video', CollectionType::class,[
+                'entry_type' => TextType::class,
                 'entry_options' => ['label' => false],
-                'label' => false,
                 'allow_add' => true,
-                'allow_delete' => true
-
+                //'allow_delete' => true
+                'prototype' => true,
+                'prototype_data' => 'coller le lien de la video', */
+                'video', CollectionType::class, [
+                    'entry_type' => VideosFormType::class,
+                    'entry_options' => ['label' => false],
+                    'label' => false,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'required' => false
 
                 ]
             );

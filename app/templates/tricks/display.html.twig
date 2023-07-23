@@ -50,7 +50,6 @@
                     </div>
 
 
-
                      <div class="row d-lg-flex load-media">
                             <div class="col-lg-6 col-md-12">
                                 <div id="carousel_image" class="carousel slide mt-3 mb-2" data-ride="carousel">
@@ -62,7 +61,7 @@
                                     <div class="carousel-inner enlarge">
                                         {% for img in images %}
                                             <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                                <img class="d-block" src="{{asset('assets/uploads/tricks/mini/300x300-') ~ img.path }}" alt="Backflip-image-8">
+                                                <img class="d-block" src="{{asset('assets/uploads/tricks/mini/300x300-') ~ img.path }}" alt="">
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -99,6 +98,26 @@
                         </div>
                         <!-- End Carousel -->
 
+                  {% if form is defined %}
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center my-3">
+        <div class="col col-lg-6">
+            {{ form_widget(form.content) }}
+        </div>
+        <div class="w-100 d-block d-sm-none"></div>
+        <div class="col text-center col-md-auto ">
+            <button type="submit" class="btn btn-primary my-3">Ajouter un commentaire</button>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    {% else %}
+     <div class="col-md-12 px-0 mb-3">
+                        <div class="comments text-center p-3">
+                            <p><a href="">Inscrivez-vous</a> ou <a href="">connectez vous</a> pour commenter cet article</p>
+                        </div>
+                    </div>
+    {% endif %}
+
 
                      <!-- Start Comments -->
                 <span class="comments-anchor" id="comments-block"></span>
@@ -110,14 +129,18 @@
                                 {%  for comment in comments%}
                                     <div class="row mb-3 pl-2 bg-light">
                                         <span class="comment-anchor" id="{{ comment.id }}"></span>
-                                        <div class="col-3">
-                                             {# <img src=" {{asset('profile/avatars/mini/300x300-1.webp')}}" class="user-profile" alt=""> #}
-                                             <img src=" {{asset('profile/avatars/mini/300x300-5.webp')}}" class="user-profile" alt="">
+                                        {# <div class="col-auto">
+                                             <img src="{{asset('assets/uploads/tricks/mini/300x300-')}}" class="user-profile" alt="">
+                                           
                                              
-                                        </div>
+                                        </div> #}
+                                        <div class="col-auto">
+                        <img src=" {{asset('assets/uploads/avatars/mini/300x300-5') }} "
+                            class="rounded-circle" style="max-width: 50px;" alt="">
+                            </div>
                                         <div class="col-9">
                                             <p>{{ comment.content }}</p>
-                                            <p><span >par <a href="{{ path("user_profile",{'id': comment.user.id}) }}" >{{ comment.user.firstname }}</a></span>
+                                            <p><span >par <a href="{{ path("user_profile",{'id': comment.user.id}) }}" >{{ comment.user.fullname }}</a></span>
                                                 <span>le {{ comment.createdAt|date('d/m/Y') }}</span>
                                             </p>
                                         </div>
@@ -164,11 +187,7 @@
                 <!-- Start Comment Add Form -->
               
               
-                    <div class="col-md-12 px-0 mb-3">
-                        <div class="comments text-center p-3">
-                            <p><a href="">Inscrivez-vous</a> ou <a href="">connectez vous</a> pour commenter cet article</p>
-                        </div>
-                    </div>
+                   
             
                 <!-- Start Comment Add Form -->
 

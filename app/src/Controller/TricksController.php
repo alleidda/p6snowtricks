@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Users;
-use App\Form\AddTrickFormType;
 use App\Entity\Comment;
-use App\Entity\Image;
 use App\Form\TricksType;
 use App\Form\CommentType;
+use App\Form\AddTrickFormType;
+use App\Form\CommentsFormType;
 use App\Form\TricksUpdateType;
 use App\Service\PictureService;
 use App\Service\VideoLinkService;
@@ -34,8 +35,20 @@ class TricksController extends AbstractController
 
 
     #[Route('/tricks/{slug}', name: 'tricks_display')]
-    public function display(Trick $trick, CommentRepository $commentsRepository, ImageRepository $image, Request $request): Response
+    public function display(Trick $trick, CommentRepository $commentsRepository, EntityManagerInterface $entityManager, ImageRepository $image, Request $request): Response
     {
+        $user = $this->getUser();
+        $comment = new Comment();
+        $form = $this->createForm(CommentsFormType::class, $comment);
+        $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+                $comment = $form->getData();
+                $comment->setUser($user);
+                $comment->setTrick($trick);
+                $entityManager->persist($comment);
+                $entityManager->flush();
+         }
         //  dd($trick->getComments());
 
         //On va chercher le numéro de page dans l'url
@@ -45,13 +58,14 @@ class TricksController extends AbstractController
         //On va chercher la liste des produits de la catégorie
         $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 4);
 
-        $user = $this->getUser();
+      
 
         return $this->render('tricks/display.html.twig', [
             'tricks' => $trick,
             'comments' => $trick->getComments(),
             'images' => $trick->getImage(),
             'user' => $trick->getUsers(),
+            'form' => $form->createView(),
             
         ]);
     }
@@ -144,6 +158,8 @@ class TricksController extends AbstractController
 
         $entityManager->remove($trick);
         $entityManager->flush();
+        
+        $this->addFlash('success', 'Figure supprimée avec succès');
 
         return $this->redirectToRoute('home');
     }
@@ -152,6 +168,15 @@ class TricksController extends AbstractController
     {
 
         $images = $form->get('images')->getData();
+
+          //    We get the videos
+          foreach ($trick->getVideo() as $video) {
+            $video->setName($trick->getName());
+            $link = $videoLinkService->checkLink($video);
+            $video->setUrl($link);
+            $video->setTrick($trick);
+            $entityManager->persist($video);
+        }
 
         foreach ($images as $image) {
             if($image == $images[0]) {

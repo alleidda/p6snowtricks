@@ -13,7 +13,6 @@
                     <div class="card-text m-3">
 
 
-
                         {% if app.user %}
                             <p>Adresse email : <br>
                                 {{ user.email }}</p>
@@ -32,31 +31,38 @@
 
 
 
-               {#  {% if user.getTricks is not empty %}
-                    <h2 class="h4 p-3">Liste des tricks que {{ user.lastname }} a ajouté</h2>
+                {% if tricks is not empty %}
+                    <h2 class="h4 p-3">Liste des tricks que {{ user.fullname }} a ajouté</h2>
                     <table class="table table-hover">
                         <thead>
                         </thead>
                         <tbody>
-                        {% for trick in user.getTricks %}
+                        {% for trick in tricks %}
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ trick.name }}</td>
-                                <td>{{ trick.category }}</td>
-                                <td> <img src="{{ asset(trick.mainImage) }}" alt="{{ trick.name }}" class="tricks-micro"> </td>
+                                
+                                {# <td>{{ trick.category }}</td> #}
+                                {# <td> <img src="{{ asset(trick.mainImage) }}" alt="{{ trick.name }}" class="tricks-micro"> </td> #}
                                 <td>
                                     <a href="{{ path('tricks_display', {'slug' : trick.slug} ) }}" class="btn btn-primary">Voir</a>
+                                </td>
+                                 <td>
+                                    
+                                    {% if app.user and app.user.id == app.request.attributes.get('id') %}
+                                    <a href="{# {{ path('trick_delete', {'id': trick.id}) }} #}" class="btn btn-danger">Supprimer</a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                {% endif %} #}
+                {% endif %}
 
 
 
                 {% if user.getComments is not empty %}
-                    <h2 class="h4 p-3">Liste des commentaires que {{ user.lastname }} a écrit</h2>
+                    <h2 class="h4 p-3">Liste des commentaires que {{ user.fullname }} a écrit</h2>
                     <table class="table table-hover">
                         <thead>
                         </thead>
@@ -64,11 +70,11 @@
                         {% for comment in user.getComments %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td>{{ comment.tricks.name }}</td>
+                                <td>{{ comment.trick.name }}</td>
                                 <td>{{ comment.content|slice(0,50) }} ...</td>
-                                <td>{{ comment.date|date('d/m/Y H:i') }}</td>
+                                <td>{{ comment.createdAt|date('d/m/Y H:i') }}</td>
                                 <td>
-                                    <a href="{{ path('tricks_display', {'slug': comment.tricks.slug}) }}" class="btn btn-primary">Voir</a>
+                                    <a href="{{ path('tricks_display', {'slug': comment.trick.slug}) }}" class="btn btn-primary">Voir</a>
                                     {% if app.user and app.user.id == app.request.attributes.get('id') %}
                                     <a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-danger">Supprimer</a>
                                     {% endif %}

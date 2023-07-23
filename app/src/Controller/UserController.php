@@ -11,8 +11,12 @@ class UserController extends AbstractController
     #[Route('/user/{id}', name: 'user_profile')]
     public function index(Users $users): Response
     {
+        $user = $this->getUser();
+        $comments = $user->getComments();
+        $tricks = $user->getTricksUser();
         return $this->render('user/index.html.twig', [
             'user' => $users,
+            'tricks' => $tricks,
         ]);
     }
 }
