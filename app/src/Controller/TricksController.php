@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Users;
+use App\Entity\Video;
 use App\Entity\Comment;
 use App\Form\TricksType;
 use App\Form\CommentType;
@@ -65,7 +66,7 @@ class TricksController extends AbstractController
             'comments' => $trick->getComments(),
             'images' => $trick->getImage(),
             'user' => $trick->getUsers(),
-            'form' => $form->createView(),
+            'form' => $form->createView()
             
         ]);
     }
@@ -91,13 +92,15 @@ class TricksController extends AbstractController
             $user = $this->getUser();
 
             $slug = $slugger->slug($trick->getName());
+            $trick->setName($trick->getName());
             $trick->setSlug($slug);
             $trick->setUsers($user);
 
             $entityManager->persist($trick);
-            $entityManager->flush();
-
+            
             $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService);
+
+            $entityManager->flush();
 
 
             $this->addFlash('success', 'Figure ajoutée avec succès');
@@ -168,11 +171,16 @@ class TricksController extends AbstractController
     {
 
         $images = $form->get('images')->getData();
+        $videos = $form->get('video')->getData();
+//        dd($videos);
 
           //    We get the videos
           foreach ($trick->getVideo() as $video) {
+            // $video = new Video();
             $video->setName($trick->getName());
-            $link = $videoLinkService->checkLink($video);
+
+            
+            $link = $videoLinkService->checkLink($video->getUrl());
             $video->setUrl($link);
             $video->setTrick($trick);
             $entityManager->persist($video);
@@ -196,7 +204,8 @@ class TricksController extends AbstractController
             $image->setIsMain($main);
             $image->setTrick($trick);
             $entityManager->persist($image);
-            $entityManager->flush();
+            
         }
+        $entityManager->flush();
     }
 }

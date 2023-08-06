@@ -20,7 +20,7 @@ class VideosFormType extends AbstractType
                     'pattern' => '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$',
                     'title' => 'Veuillez remplir une url valide'
                 ],
-                'label' => 'coller le lien de la video'
+                'label' => 'Coller le lien de la video'
                 ]
             );
     }

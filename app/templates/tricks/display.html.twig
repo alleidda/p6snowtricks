@@ -24,7 +24,7 @@
 
                         <ul class="list-inline trick-data">
                             <li class="list-inline-item">
-                                Par : <a target="" href="">Ajouté par : {{user.fullname}}</a>
+                                Ajouté par : <a target="" href=""> {{user.fullname}}</a>
                             </li> |
                             <li class="list-inline-item">
                                 Ajouté le {{ tricks.createdAt | date('d/m/Y') }}  {% if tricks.updatedAt is not null %}(<small>Mise à jour le : {{ tricks.updatedAt | date('d/m/Y') }} </small>) {% endif %}
@@ -49,7 +49,7 @@
                         <p class="card-text text-justify">{{ tricks.description }}</p>
                     </div>
 
-
+                    <!-- Start Carousel -->
                      <div class="row d-lg-flex load-media">
                             <div class="col-lg-6 col-md-12">
                                 <div id="carousel_image" class="carousel slide mt-3 mb-2" data-ride="carousel">
@@ -73,20 +73,27 @@
                                     </a>
                                 </div>
                             </div>
-                            {# <div class="col-lg-6 col-md-12">
+
+
+                            <div class="col-lg-6 col-md-12">
                                 <div id="carousel_video" class="carousel slide mt-3 mb-2" data-ride="carousel">
                                     <ol class="carousel-indicators">
-                                        {% for video in tricks.videos %}
+                                        {% for video in tricks.video %}
                                             <li data-target=".carousel" data-slide-to="{{ loop.index - 1 }}"  {% if loop.index == 0 %}class="active" {% endif %}></li>
                                         {% endfor %}
                                     </ol>
-                                    <div class="carousel-inner enlarge">
-                                        {% for video in tricks.videos %}
-                                            <div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-                                                <iframe src="{{ video.video }}" allowfullscreen=""></iframe>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
+                                     {% for video in tricks.video %}
+                <div class="col mb-3">
+                    <div class="card h-100">
+                        <div class="ratio ratio-16x9 mt-5">
+                            <iframe width="280" height="158" allowfullsreen src="{{ video.url }}" frameborder="0"></iframe>
+                        </div>
+                        <div class="card-text mt-5 mb-3 mx-auto">
+                           
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
                                     <a class="carousel-control-prev" href="#carousel_video" data-slide="prev">
                                         <span class="carousel-control-prev-icon"></span>
                                     </a>
@@ -94,9 +101,48 @@
                                         <span class="carousel-control-next-icon"></span>
                                     </a>
                                 </div>
-                            </div> #}
+                            </div>
                         </div>
-                        <!-- End Carousel -->
+                        <!-- End Carousel --> 
+
+
+
+{#                             <section class="show-medias">
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 my-5">
+            {% include "_partials/_main_picture.html.twig" with { "tricks" : tricks.image, "display" : "all"} %}
+            {% for video in tricks.video %}
+            <div class="col">
+                    <div class="row mt-5 text-center">
+                        <iframe class="shadow-sm rounded" allowfullsreen src="{{ video.url }} " frameborder="0"></iframe>
+                    </div>
+                    <div class="text-center row mt-5 mx-5">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{ video.id }}">
+                            Afficher en plus grand
+                          </button>
+                    </div>
+            </div>
+            <div id="{{ video.id }}" class="modal fade " data-bs-backdrop="static">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title px-3">Vous devez mettre en pause avant de fermer la vidéo</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button> 
+                    </div>
+                    <div class="modal-boddy">
+                        <div class="ratio ratio-16x9">
+                            <iframe allowfullscreen src="{{ video.url }}" frameborder="0"></iframe>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Fermer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            
+        </div>
+    </section> #}
 
                   {% if form is defined %}
     {{ form_start(form) }}

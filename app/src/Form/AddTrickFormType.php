@@ -76,8 +76,7 @@ class AddTrickFormType extends AbstractType
                     'entry_options' => ['label' => false],
                     'label' => false,
                     'allow_add' => true,
-                    'allow_delete' => true,
-                    'required' => false
+                    'allow_delete' => true
 
                 ]
             );
