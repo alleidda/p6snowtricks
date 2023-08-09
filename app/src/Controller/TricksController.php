@@ -172,7 +172,9 @@ class TricksController extends AbstractController
 
         $images = $form->get('images')->getData();
         $videos = $form->get('video')->getData();
-//        dd($videos);
+        //$new_video = $form->get('video');
+
+        //dd($videos);
 
           //    We get the videos
           foreach ($trick->getVideo() as $video) {

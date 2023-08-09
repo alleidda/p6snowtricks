@@ -37,12 +37,6 @@ class RegistrationFormType extends AbstractType
             ],
             'label' => 'Prénom'
         ])
-        ->add('username', TextType::class, [
-            'attr' => [
-                'class' => 'form-control'
-            ],
-            'label' => 'Pseudo'
-        ])
             ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

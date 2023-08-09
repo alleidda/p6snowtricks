@@ -15,7 +15,19 @@
 					{{ form_row(form.description) }}
 					{{ form_row(form.category) }}
 					{{ form_row(form.images) }}
-					{{ form_row(form.video.vars.prototype) }}
+
+					{# <div class="add_video">
+										{{ form_row(form.video.vars.prototype) }}
+										</div> #}
+
+					<div class="form">
+						<ul class="videos" data-index="{{ form.video|length > 0 ? form.video|last.vars.name + 1 : 0 }}" data-prototype="{{ form_row(form.video.vars.prototype)|e('html_attr') }}"></ul>
+					</div>
+					
+					<div>
+						<button type="button" class="btn btn_add_video_link" data-collection-holder-class="videos">Add</button>
+					</div>
+
 					<button type="submit" class="btn btn-success">Ajouter le tricks</button>
 					{{ form_end(form) }}
 				</div>
@@ -26,10 +38,14 @@
 
 {% block javascripts %}
 	{# Script pour changer le nom du fichier lors de l'upload #}
-	<script type="application/javascript">
-		$('input[type="file"]').change(function (e) {
-var fileName = e.target.files[0].name;
-$('.custom-file-label').html(fileName);
-});
-	</script>
+	/*
+	{# 	<script type="application/javascript">
+			$('input[type="file"]').change(function (e) {
+	var fileName = e.target.files[0].name;
+	$('.custom-file-label').html(fileName);
+	});
+		</script> #}
+	*/
+
+	<script></script>
 {% endblock %}

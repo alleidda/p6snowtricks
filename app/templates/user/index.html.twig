@@ -7,20 +7,21 @@
 
         <div class="card">
             <div class="row">
+               {% if app.user %}
                 <div class="col-8">
                     <div class="card-title m-3 h3">{{ user.lastname }} {{ user.firstname }}</div>
 
                     <div class="card-text m-3">
 
-
-                        {% if app.user %}
+                    
                             <p>Adresse email : <br>
                                 {{ user.email }}</p>
                             <hr>
-                        {% endif %}
+                     
 
 
                         <p>Inscrit depuis : {{ user.createdAt|date('d-m-Y') }}</p>
+                          
 
                     </div>
                 </div>
@@ -28,8 +29,7 @@
                     <img src="{{ asset(user.picture) }}" alt="Image de {{ user.firstName }} {{ user.lastName }}" class="img-thumbnail m-5 float-right user-profile">
                 </div>
             </div>
-
-
+             {% endif %}
 
                 {% if tricks is not empty %}
                     <h2 class="h4 p-3">Liste des tricks que {{ user.fullname }} a ajouté</h2>
@@ -41,9 +41,6 @@
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ trick.name }}</td>
-                                
-                                {# <td>{{ trick.category }}</td> #}
-                                {# <td> <img src="{{ asset(trick.mainImage) }}" alt="{{ trick.name }}" class="tricks-micro"> </td> #}
                                 <td>
                                     <a href="{{ path('tricks_display', {'slug' : trick.slug} ) }}" class="btn btn-primary">Voir</a>
                                 </td>
