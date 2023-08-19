@@ -24,7 +24,7 @@
                             </div>
                             {% if app.user %}
                                 <div class="mt-1 text-center">
-                                    <a href="{{ path("tricks_update", {'slug' : trick.slug}) }}">
+                                    <a href="{{ path("edit_trick", {'slug' : trick.slug}) }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="{{ path("delete_trick", {'slug' : trick.slug}) }}">

@@ -1,0 +1,10 @@
+{% if user and user.isVerified %}
+    <div class={{class1}}>
+        <div class={{class2}}  >
+            <a href=" {{path('edit_trick', {'slug' : trick.slug})}}" ><i class="fa fa-edit  {{edit}}"></i></a>
+        </div>
+        <div class={{class2}}>
+            <a href="{{path('delete_trick', {'slug' : trick.slug})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')" ><i class="fa fa-trash-alt  {{delete}}"></i></a>
+        </div>
+    </div>
+{% endif %}

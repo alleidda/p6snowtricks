@@ -47,7 +47,7 @@ class AddTrickFormType extends AbstractType
                 'label' => 'Ajouter une ou plusieurs images',
                 'multiple' => true,
                 'mapped' => false,
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                     new All(
                         new Image(

@@ -1,0 +1,28 @@
+{% set field = 'defaut.jpg' %}
+
+	{# {% for img in image %}
+		{% if img.isMain == 1 %}
+			{% set field = img.path %}
+	{% elseif field == 'defaut.jpg' %}
+		{% if img.isMain == 1 %}
+			{% elseif img.path == tricks|first.path %}
+				{% set field = img.path %}
+		{% endif %}
+	{% endif %}
+{% endfor %} #}
+
+{% if display == "img" %}
+	<img src=" {{asset('assets/uploads/tricks/mini/300x300-') ~ field }} " class="card-img-top img-fluid" alt="{{trick.name}}">
+{% elseif display == "bg" %}
+	<div class="bg-image my-3" style="background-image: url('{{asset('assets/uploads/tricks/mini/300x300-') ~ field }}')"></div>
+{% elseif display == "all" %}
+	{% for media in tricks %}
+		{% if media.path != field %}
+			<div class="col text-center">
+				<div class=" my-3 ">
+					<img src=" {{asset('assets/uploads/tricks/mini/300x300-') ~ media.path }} " class=" img-fluid rounded shadow-sm" alt="{{trick.name}}">
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endif %}

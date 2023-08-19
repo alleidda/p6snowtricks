@@ -21,6 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -50,7 +51,6 @@ class TricksController extends AbstractController
                 $entityManager->persist($comment);
                 $entityManager->flush();
          }
-        //  dd($trick->getComments());
 
         //On va chercher le numéro de page dans l'url
         $page = $request->query->getInt('page', 1);
@@ -72,21 +72,37 @@ class TricksController extends AbstractController
     }
 
 
+    
+    #[Route('/tricks/more/{offset}', name: 'more_tricks')]
+    public function loadMoreTricks(TrickRepository $tricksRepository, $offset)
+    {
+        $html = $this->renderView(
+            'home/_more_tricks.html.twig', [
+            'tricks' => $tricksRepository->findAll(),
+            'offset' => $offset
+            ]
+        );
+        return new JsonResponse(['html' => $html]);
+    }
+
+
     #[Route('/trick/add', name: 'tricks_add')]
-    public function addTrick(
+    public function newTrick(
         Request $request,
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
         PictureService $pictureService,
-        VideoLinkService $videoLinkService
+        VideoLinkService $videoLinkService,
     ): Response {
 
 
         $trick = new Trick();
-        // $this->denyAccessUnlessGranted('TRICK_ADD', $trick);
+        $this->denyAccessUnlessGranted('ROLE_USER');
+         $this->denyAccessUnlessGranted('TRICK_ADD', $trick);
         $form = $this->createForm(AddTrickFormType::class, $trick);
 
         $form->handleRequest($request);
+        $action = "add";
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
@@ -98,7 +114,7 @@ class TricksController extends AbstractController
 
             $entityManager->persist($trick);
             
-            $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService);
+            $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService, $action);
 
             $entityManager->flush();
 
@@ -109,25 +125,69 @@ class TricksController extends AbstractController
         }
 
         return $this->render(
-            'tricks/add.html.twig',
+            'tricks/add_trick.html.twig',
             [
                 'form' => $form->createView()
             ]
         );
     }
 
+    #[Route('/modification-figure/{slug}', name: 'edit_trick')]
+    public function editTrick(
+        Trick $trick,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PictureService $pictureService,
+        VideoLinkService $videoLinkService,
+    ): Response {
+        // We check if the user can edit with the voter
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
 
-    #[Route('tricks/slug/update', name: 'tricks_update')]
+        $form = $this->createForm(AddTrickFormType::class, $trick);
 
-    public function updateTrick(TrickRepository $tricks, ImageRepository $image): Response
-    {
-        return $this->render('home/index.html.twig', [
-            'tricks' => $tricks->findAll(),
-            'image' => $image,
-        ]);
+        $form->handleRequest($request);
+        $action = "edit";
+
+        $params = ['slug' => $trick->getSlug()];
+        
+               // dd($trick->getSlug());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService, $action);
+
+
+            $this->addFlash('success', 'Figure modifiée avec succès');
+
+            return $this->redirectToRoute('edit_trick', ['slug' => $trick->getSlug()]);
+        }
+
+        return $this->render(
+            'tricks/edit_trick.html.twig', [
+            'form' => $form->createView(),
+            'trick' => $trick,
+            'images' => $trick->getImage()
+            ]
+        );
     }
 
+    #[Route('/image-principale/{id}', name: 'main_picture')]
+    public function mainImage(Image $media, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //dd($media);
+        $params = ['slug' => $media->getTrick()->getSlug()];
+        $trickmedias = $media->getTrick()->getImage();
+        foreach ($trickmedias as $img) {
+            $img->setIsMain(0);
+            $entityManager->persist($img);
+        }
 
+        $media->setIsMain(1);
+        $entityManager->persist($media);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('edit_trick', $params);
+    }
 
     #[Route('tricks/slug/delete', name: 'tricks_delete')]
 
@@ -139,13 +199,44 @@ class TricksController extends AbstractController
         ]);
     }
 
+    #[Route('/suppression-image/{id}', name: 'delete_image', methods: ['DELETE'])]
 
+    public function deleteImage(
+        Image $media,
+        Request $request,
+        EntityManagerInterface $entityManagerInterface,
+        PictureService $pictureService
+    ): JsonResponse {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        // Retrieve the content of the request
+        $data = json_decode($request->getContent(), true);
+
+        // We check the token
+        if ($this->isCsrfTokenValid('delete' . $media->getId(), $data['_token'])) {
+            // The csrf token is valid
+            // We get the name of the image
+            $name = $media->getPath();
+
+            if ($pictureService->delete($name, 'tricks', 300, 300)) {
+                // Delete the image from the database
+                $entityManagerInterface->remove($media);
+                $entityManagerInterface->flush();
+
+                return new JsonResponse(['success' => true], 200);
+            }
+            // Deletion did not work
+            return new JsonResponse(['error' => 'erreur de suppression']);
+        }
+
+        return new JsonResponse(['error' => 'Token invalide'], 400);
+    }
 
     #[Route('/suppression-figure/{slug}', name: 'delete_trick')]
     public function delete(Trick $trick, EntityManagerInterface $entityManager, PictureService $pictureService): Response
     {
         // We check if the user can delete with the voter
-        // $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
+        $this->denyAccessUnlessGranted('ROLE_USER');
+         $this->denyAccessUnlessGranted('TRICK_DELETE', $trick);
 
 
         foreach ($trick->getVideo() as $video) {
@@ -167,33 +258,36 @@ class TricksController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
-    private function handleData($form, $pictureService, $trick, $entityManager, $videoLinkService)
+    private function handleData($form, $pictureService, $trick, $entityManager, $videoLinkService, $action)
     {
 
         $images = $form->get('images')->getData();
-        $videos = $form->get('video')->getData();
-        //$new_video = $form->get('video');
+//dd($form->get('video')->getData());
 
-        //dd($videos);
 
           //    We get the videos
           foreach ($trick->getVideo() as $video) {
-            // $video = new Video();
-            $video->setName($trick->getName());
+            if($video->getId() == null) {
 
-            
+            $video->setName($trick->getName());
+            //dd($video);
             $link = $videoLinkService->checkLink($video->getUrl());
             $video->setUrl($link);
             $video->setTrick($trick);
             $entityManager->persist($video);
-        }
+            }
+        } 
 
+        
         foreach ($images as $image) {
-            if($image == $images[0]) {
+           
+            if($image == $images[0] && $action == "add") {
                 $main = true;
             } else {
                 $main = false;
             }
+        
+        
 
             // We define the destination folder
             $folder = 'tricks';

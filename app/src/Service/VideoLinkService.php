@@ -7,6 +7,7 @@ class VideoLinkService
 {
     function checkLink($url)
     {
+        
          $shortUrlRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
          $longUrlRegex = '/youtube.com\/((?:embed)|(?:watch))((?:\?v\=)|(?:\/))([a-zA-Z0-9_-]+)/i';
     
@@ -18,5 +19,10 @@ class VideoLinkService
             $youtube_id = $matches[count($matches) - 1];
         }
         return 'https://www.youtube.com/embed/' . $youtube_id ;
+    }
+
+    function bonjour()
+    {
+        return("bonjour");
     }
 }

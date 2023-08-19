@@ -186,7 +186,7 @@
                             </div>
                                         <div class="col-9">
                                             <p>{{ comment.content }}</p>
-                                            <p><span >par <a href="{{ path("user_profile",{'id': comment.user.id}) }}" >{{ comment.user.fullname }}</a></span>
+                                            <p><span >par <a href="{{ path('app_profile') }}" >{{ comment.user.fullname }}</a></span>
                                                 <span>le {{ comment.createdAt|date('d/m/Y') }}</span>
                                             </p>
                                         </div>

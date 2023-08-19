@@ -2,7 +2,7 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Tricks;
+use App\Entity\Trick;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -27,7 +27,7 @@ class TricksVoter extends Voter
         if (!in_array($attribute, [self::EDIT, self::DELETE, self::ADD])) {
             return false;
         }
-        if (!$trick instanceof Tricks) {
+        if (!$trick instanceof Trick) {
             return false;
         }
         return true;
