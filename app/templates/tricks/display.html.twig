@@ -119,10 +119,10 @@
 						{% for comment in comments.data %}
 							<div class="row p-3 bg-body rounded mb-3 shadow">
 								<div class="col-auto">
-									{% if comment. user. picture %}
-										<img src=" {{asset('assets/uploads/ pictures/mini/300x300-') ~ comment. user. picture }} " class="rounded-circle" style="max-width: 50px;" alt="{{trick.name}}">
+									{% if comment. user. picture != null %}
+										<img src="{{asset('assets/uploads/avatars/mini/300x300-'~ comment.user.picture)}}" class="rounded-circle ms-3" style="max-width: 50px;" alt="avatar">
 									{% else %}
-										<img src=" {{asset('assets/pictures/ picture.png')}} " alt="{{comment. user.username}}">
+										<img src=" {{asset('assets/pictures/avatar.png')}} " alt="{{comment.user.username}}">
 									{% endif %}
 								</div>
 								<div class="col">

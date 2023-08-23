@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel avatar{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center my-5">
+        <div class="col-11 col-md-8 col-lg-6 shadow my-3 pt-5 px-md-5 bg-form">
+            {{form_start(form)}}
+            {{form_row(form.avatar)}}
+            <div class="form-group my-5 text-center">
+                <button type="submit" class="btn my-3">Changer</button>
+            </div>
+            {{form_end(form)}}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,17 +11,17 @@
                 <p class="pt-3">Mon pseudo : {{user.username}}</p>
                 <p>Mon adresse mail : {{user.email}}</p>
                 <p>Mon avatar :
-                 {#    {% if user.picture %}
-                    <img src="{{asset('assets/uploads/avatars/mini/300x300-'~ user.avpicture)}}"
+                    {% if user.picture %}
+                    <img src="{{asset('assets/uploads/avatars/mini/300x300-'~ user.picture)}}"
                         class="rounded-circle ms-3" style="max-width: 50px;" alt="avatar">
-                    {% else %} #}
+                    {% else %}
                     <img src=" {{asset('assets/pictures/avatar.png')}} " alt="{{user.username}}">
-                    {# {% endif %} #}
+                    {% endif %}
                 </p>
                 <hr>
-                <P class="pt-3"> <a {# href="{{path('new_avatar')}}" #}>Modifier mon avatar <i
+                <P class="pt-3"> <a href="{{path('new_avatar')}}">Modifier mon avatar <i
                             class="fa-solid fa-image"></i></a> </P>
-                <P> <a href="{# {{path('new_pass')}} #}">Modifier mon mot de passe <i class="fa-solid fa-unlock"></i></a> </P>
+                <P> <a href="{{ path('new_pass') }}">Modifier mon mot de passe <i class="fa-solid fa-unlock"></i></a> </P>
             </div>
         </div>
     </div>
