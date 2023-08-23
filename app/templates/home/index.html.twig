@@ -5,14 +5,16 @@
 {% block body %}
 	
 		<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh">
-			<a href="#tricks-container">
+			{# <a href="#tricks-container">
 				<i class="fa-sharp fa-regular fa-arrow-down"></i>
-			</a>
+			</a> #}
 		</div>
-		<hr>
          
 <main class="container">
+
+  {% if tricks is not empty %}
 		<section class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 my-3">
+      
 			{% for trick in tricks|slice(0, 6) %}
 				<div class="col">
 					<div class="card h-100 mb-3 shadow-sm">
@@ -26,8 +28,7 @@
                              {% else %}
                                  <img class="display-top img-fluid" src=" {{asset('img/mainImage.jpg')}}" alt="">
 						{% endif %}
-
-
+                    
 						<div class="card-text">
 							<div class="row mt-3 ms-3">
 								<div class="col-6">
@@ -35,18 +36,35 @@
 										<h5 class="card-title">{{trick.name}}</h5>
 									</a>
 								</div>
-                                {% if app.user and (trick.users.id == app.user.id) %}
+                                {% if app.user and trick.users.id == app.user.id %}
+                               
 								<div class="col-6">
 									{% include "partials/_link_trick.html.twig" with { "user" : app.user, "class1" : "row", "class2" :
               "col-6", "edit" : "" , "delete": ""}%}
 								</div>
                                 {% endif %}
+                                
 							</div>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
+            </div>
+             
 		</section>
+        {% else %}
+            <div class=" row text-center mt-3">
+            <p>Vous n'avez ajouté aucun trick pour l'instant </p>
+            {% if app.user and app.user.isVerified %}
+    <div >
+	<button class="btn bg-info">
+    <a href="{{path('tricks_add')}}" class="fw-bold">Ajouter un trick</a> 
+	</button>
+	<br>
+    </div>
+    </div>
+    {% endif %}
+            {% endif %}
 
 		<section class="row row-cols-1 row-cols-md-5 g-4 my-3" id="tricks-container"></section>
 		{% if tricks|length >5 %}

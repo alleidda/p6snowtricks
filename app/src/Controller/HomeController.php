@@ -14,9 +14,20 @@ class HomeController extends AbstractController
     
     public function index(TrickRepository $tricks, ImageRepository $image): Response
     {
+
+        $user = $this->getUser();
+        if ($user && $user->getIsVerified()) {
         return $this->render('home/index.html.twig', [
-            'tricks' => $tricks->findAll(),
+            'tricks' => $user->getTricksUser(),
             'image' => $image,
-        ]);
+        ]); }
+        else {
+            return $this->render('home/index.html.twig', [
+                'tricks' => $tricks->findAll(),
+                'image' => $image,
+            ]);
+        }
+    
     }
+    
 }

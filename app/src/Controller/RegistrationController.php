@@ -36,8 +36,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $avatar = $form->get('avatar')->getData();
-            if ($avatar) {
+            
+            if ($form->get('picture')->getData()) {
+                $avatar = $form->get('picture')->getData();
                 $folder = 'avatars';
                 $file = $pictureService->add($avatar, $folder, 300, 300);
                 $user->setPicture($file);

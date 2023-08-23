@@ -12,8 +12,8 @@
                 <p>Mon adresse mail : {{user.email}}</p>
                 <p>Mon avatar :
                     {% if user.picture %}
-                    <img src="{{asset('assets/uploads/avatars/mini/300x300-'~ user.picture)}}"
-                        class="rounded-circle ms-3" style="max-width: 50px;" alt="avatar">
+                    <img src="{{asset('assets/uploads/avatars/'~ user.picture)}}"
+                        class="rounded-circle ms-3" style="max-width: 200px;" alt="avatar">
                     {% else %}
                     <img src=" {{asset('assets/pictures/avatar.png')}} " alt="{{user.username}}">
                     {% endif %}

@@ -2,10 +2,8 @@
 {% block title %}
 	{{ trick.name }}
 {% endblock %}
-
 {% block body %}
-
-	<div class="container">
+	<div class="container bg-light my-3">
 		<div class="card mt-2">
 			<div class="mt-3 mx-auto card-img-top img-fluid">
 				{% if trick.image is not empty%}
@@ -13,16 +11,18 @@
 						{% if img.isMain == 1 %}
 							<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
 						{% endif %}
-
 					{% endfor %}
 				{% else %}
 					<img class="display-top img-fluid" src="{{asset('img/mainImage.jpg')}}" alt="">
 				{% endif %}
 			</div>
+            
+             {% if app.user and (trick.users.id == app.user.id) %}
 			<div class="card-img-overlay">
 				{% include "partials/_link_trick.html.twig" with { "user" : app.user, "class1" : "position-relative",
             "class2" : "", "edit" : "edit-icon", "delete" : "delete-icon"} %}
 			</div>
+            {% endif %}
 			<div class="card-body text-center">
 				<h2 class="card-title text-center">{{ trick.name}}</h2>
 				<div class="row justify-content-md-center my-5">
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		{% if trick.image|length > 1 or trick.video|length > 0 %}
-			<div class="text-center mt-5 d-sm-none d-block">
+			<div class="text-center mt-5 d-sm d-block">
 				<button type="button" class="btn btn-show">Afficher les médias</button>
 			</div>
 			<div class="text-center mt-5">
@@ -115,24 +115,30 @@
 		<div class="container mx-auto">
 			<div class="row mt-5 justify-content-center">
 				<div class="col-12 col-lg-8">
+                 
 					{% if comments.data is defined %}
 						{% for comment in comments.data %}
 							<div class="row p-3 bg-body rounded mb-3 shadow">
 								<div class="col-auto">
-									{% if comment. user. picture != null %}
-										<img src="{{asset('assets/uploads/avatars/mini/300x300-'~ comment.user.picture)}}" class="rounded-circle ms-3" style="max-width: 50px;" alt="avatar">
+									{% if comment.user.picture != null %}
+										<img src="{{asset('assets/uploads/avatars/mini/300x300-'~ comment.user.picture)}}" class="rounded-circle ms-3" style="max-width: 100px;" alt="avatar">
 									{% else %}
 										<img src=" {{asset('assets/pictures/avatar.png')}} " alt="{{comment.user.username}}">
 									{% endif %}
 								</div>
 								<div class="col">
 									<div>
-										<span class="fw-bold ">{{comment. user.username}}</span>
-										<span class="fst-italic">
+										<span class="fw-bold ">{{comment.user.username}}</span>
+										<div cardclass="fst-italic">
 											le
-											{{comment.createdAt|date('d/m/Y')}}</span>
+											{{comment.createdAt|date('d/m/Y')}}</div>
 									</div>
+                                    {% if app.user and (comment.user.id == app.user.id) %}
 									<div>{{comment.content}}</div>
+                                     <div class="pull-right">
+                        <a href="{{ path('comment_delete', {'id':comment.id}) }}"><i class="fas fa-trash"></i></a>
+                    </div>
+                    {% endif %}
 								</div>
 							</div>
 						{% endfor %}
@@ -151,11 +157,5 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
-{% endblock %}
-{% block javascripts %}
-	<script src=" {{asset('assets/js/show.js')}}" defer></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
 {% endblock %}

@@ -39,6 +39,13 @@ class RegistrationFormType extends AbstractType
             'label' => 'Prénom'
         ])
 
+        ->add('username', TextType::class, [
+            'attr' => [
+                'class' => 'form-control'
+            ],
+            'label' => 'Pseudo'
+        ])
+
         ->add(
             'picture', FileType::class, [
             'label' => 'Ajouter un avatar',

@@ -15,11 +15,12 @@ class CommentController extends AbstractController
  
     public function delete(Comment $comment, EntityManagerInterface $manager): Response
     {
+        
         $manager->remove($comment);
         $manager->flush();
 
         $this->addFlash("success", "Le commentaire a bien été supprimé");
 
-        return $this->redirectToRoute("user_profile", ['id' => $this->getUser()->getId()]);
+        return $this->redirectToRoute('tricks_display', ['slug' => $comment->getTrick()->getSlug()]);
     }
 }
