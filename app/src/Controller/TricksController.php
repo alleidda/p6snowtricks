@@ -37,8 +37,56 @@ class TricksController extends AbstractController
 
 
     #[Route('/tricks/{slug}', name: 'tricks_display')]
+    public function display(
+        Trick $tricks,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CommentRepository $commentsRepository
+    ): Response {
+        // We will look for the page number in the url
+        $page = $request->query->getInt('page', 1);
+
+        $comments = $commentsRepository->findCommentPaginated($page, $tricks->getSlug(), 10);
+
+        $user = $this->getUser();
+        // We check that the user is logged in and that he has validated his account to access the form to add a comment
+        if ($user && $user->getIsVerified()) {
+            $comment = new Comment();
+            $form = $this->createForm(CommentsFormType::class, $comment);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $comment = $form->getData();
+                $comment->setUser($user);
+                $comment->setTrick($tricks);
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Commentaire ajouté avec succès');
+
+                return $this->redirectToRoute('tricks_display', ['slug' => $tricks->getSlug()]);
+            }
+
+            return $this->render(
+                'tricks/display.html.twig', [
+                'trick' => $tricks,
+                'comments' => $comments,
+                'form' => $form->createView(),
+                ]
+            );
+        }
+        return $this->render(
+            'tricks/display.html.twig', [
+            'trick' => $tricks,
+            'comments' => $comments,
+            ]
+        );
+    }
+
+/*     #[Route('/tricks/{slug}', name: 'tricks_display')]
     public function display(Trick $trick, CommentRepository $commentsRepository, EntityManagerInterface $entityManager, ImageRepository $image, Request $request): Response
     {
+        if ($user && $user->getIsVerified()) {
         $user = $this->getUser();
         $comment = new Comment();
         $form = $this->createForm(CommentsFormType::class, $comment);
@@ -58,18 +106,18 @@ class TricksController extends AbstractController
 
         //On va chercher la liste des produits de la catégorie
         $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 4);
-
+        }
       
 
         return $this->render('tricks/display.html.twig', [
-            'tricks' => $trick,
+            'trick' => $trick,
             'comments' => $trick->getComments(),
             'images' => $trick->getImage(),
             'user' => $trick->getUsers(),
             'form' => $form->createView()
             
         ]);
-    }
+    } */
 
 
     
@@ -94,8 +142,8 @@ class TricksController extends AbstractController
         PictureService $pictureService,
         VideoLinkService $videoLinkService,
     ): Response {
-
-
+        $user = $this->getUser();
+        if ($user->getIsVerified()) {
         $trick = new Trick();
         $this->denyAccessUnlessGranted('ROLE_USER');
          $this->denyAccessUnlessGranted('TRICK_ADD', $trick);
@@ -123,6 +171,8 @@ class TricksController extends AbstractController
 
             return $this->redirectToRoute('home');
         }
+        
+        
 
         return $this->render(
             'tricks/add_trick.html.twig',
@@ -130,6 +180,12 @@ class TricksController extends AbstractController
                 'form' => $form->createView()
             ]
         );
+
+         $this->addFlash('danger', 'Votre compte n\'est pas encore activé');
+        return $this->redirectToRoute('home');
+    }
+    $this->addFlash('danger', 'Votre compte n\'est pas encore activé');
+    return $this->redirectToRoute('home');
     }
 
     #[Route('/modification-figure/{slug}', name: 'edit_trick')]
@@ -141,6 +197,8 @@ class TricksController extends AbstractController
         VideoLinkService $videoLinkService,
     ): Response {
         // We check if the user can edit with the voter
+        $user = $this->getUser();
+        if ($user->getId() == $trick->getUsers()->getId()) {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
 
@@ -168,6 +226,8 @@ class TricksController extends AbstractController
             'images' => $trick->getImage()
             ]
         );
+    }
+    return $this->redirectToRoute('home');
     }
 
     #[Route('/image-principale/{id}', name: 'main_picture')]
@@ -231,6 +291,20 @@ class TricksController extends AbstractController
         return new JsonResponse(['error' => 'Token invalide'], 400);
     }
 
+
+    #[Route('/suppression-video/{id}', name: 'delete_video')]
+    public function deleteVideo(Video $videos, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $params = ['slug' => $videos->getTrick()->getSlug()];
+
+        $entityManager->remove($videos);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('edit_trick', $params);
+    }
+
+
     #[Route('/suppression-figure/{slug}', name: 'delete_trick')]
     public function delete(Trick $trick, EntityManagerInterface $entityManager, PictureService $pictureService): Response
     {
@@ -270,7 +344,7 @@ class TricksController extends AbstractController
             if($video->getId() == null) {
 
             $video->setName($trick->getName());
-            //dd($video);
+          
             $link = $videoLinkService->checkLink($video->getUrl());
             $video->setUrl($link);
             $video->setTrick($trick);

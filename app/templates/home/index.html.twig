@@ -1,75 +1,77 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}HomePage{% endblock %}
-
-{% block body %}
-
-      <div class="home-bg bg">  
-        <div><img class="img-fluid card-img-top" src={{ asset('img/homeimage.jpg') }} alt=""></div>
-         <a href="#tricks-title" class="home-link-top" title="Aller en bas de la page">
-            <i class="fas fa-chevron-down fa-3x chevron-down"></i>
-        </a>
-    </div>
-
-    <div class="container">
-
-        <div class="row" id="tricks-title">
-            {% for trick in tricks %}
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 trick">
-                    <div class="card card-tricks mb-3 {% if loop.index > 8 %} hidden-tricks" style="display:none;"{% endif %}">
-                        <img class="img-fluid card-img-top" src=" {{ asset('img/mainImage.jpg') }} " alt="{{ trick.name }}">
-                        <div class="card-body">
-                            <div class="card-link text-center">
-                                <a  class="btn btn-outline-primary mt-3" href="{{ path("tricks_display", {'slug' : trick.slug }) }}" >{{ trick.name }}</a>
-                            </div>
-                            {% if app.user %}
-                                <div class="mt-1 text-center">
-                                    <a href="{{ path("edit_trick", {'slug' : trick.slug}) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="{{ path("delete_trick", {'slug' : trick.slug}) }}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="row d-flex justify-content-center">
-            <div class="btn btn-info" id="loadMoreTrick" >+</div>
-            <div class="btn btn-info" id="loadLessTrick" style="display:none" >-</div>
-        </div>
-
-        <a href="#tricks-title" class="home-link-bottom" title="Aller en haut de la page">
-            <i class="fas fa-chevron-up fa-3x chevron-up"></i>
-        </a>
-
-    </div>
-
+{% block title %}SnowTricks
 {% endblock %}
 
-{% block javascripts %}
+{% block body %}
+	
+		<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh">
+			<a href="#tricks-container">
+				<i class="fa-sharp fa-regular fa-arrow-down"></i>
+			</a>
+		</div>
+		<hr>
+         
+<main class="container">
+		<section class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 my-3">
+			{% for trick in tricks|slice(0, 6) %}
+				<div class="col">
+					<div class="card h-100 mb-3 shadow-sm">
+						{% if trick.image is not empty %}
+							{% for img in trick.image %}
+								{% if img.isMain == 1 %}
+									<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
+								{% endif %}
 
-    <script>
+							{% endfor %}
+                             {% else %}
+                                 <img class="display-top img-fluid" src=" {{asset('img/mainImage.jpg')}}" alt="">
+						{% endif %}
 
-        $('#loadMoreTrick').click(function(){
-            $('.hidden-tricks').css({
-                display:'inherit'
-            })
-            $("#loadMoreTrick").hide('slow');
-            $("#loadLessTrick").show('slow');
-        })
 
-        $('#loadLessTrick').click(function() {
-            $('.hidden-tricks').css({
-                display:'none'
-            })
-            $("#loadMoreTrick").show('slow');
-            $("#loadLessTrick").hide('slow');
-        })
+						<div class="card-text">
+							<div class="row mt-3 ms-3">
+								<div class="col-6">
+									<a href="{{ path('tricks_display', {'slug' : trick.slug})}}">
+										<h5 class="card-title">{{trick.name}}</h5>
+									</a>
+								</div>
+                                {% if app.user and (trick.users.id == app.user.id) %}
+								<div class="col-6">
+									{% include "partials/_link_trick.html.twig" with { "user" : app.user, "class1" : "row", "class2" :
+              "col-6", "edit" : "" , "delete": ""}%}
+								</div>
+                                {% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</section>
 
-    </script>
+		<section class="row row-cols-1 row-cols-md-5 g-4 my-3" id="tricks-container"></section>
+		{% if tricks|length >5 %}
+			<div class="text-center">
+				<button id="load-more" class="btn my-5">
+					<i class="fa-regular fa-spinner"></i>
+					Charger plus</button>
+			</div>
+		{% endif %}
+
+		<script>
+			const loadMoreBtn = document.getElementById('load-more');
+let offset = 0;
+loadMoreBtn.addEventListener('click', function () {
+offset += 5;
+const url = '{{ path('more_tricks', {'offset': 0}) }}'.replace('0', offset);
+fetch(url).then(response => response.json()).then(data => {
+const tricksContainer = document.getElementById('tricks-container');
+tricksContainer.insertAdjacentHTML('beforeend', data.html);
+console.log(document.getElementsByClassName("card-img-top").length % 5)
+if (document.getElementsByClassName("card-img-top").length == {{ tricks|length }}) {
+loadMoreBtn.style.display = 'none';
+}
+});
+});
+		</script>
+	</main>
 {% endblock %}

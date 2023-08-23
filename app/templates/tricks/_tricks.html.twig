@@ -5,7 +5,7 @@
             <div class="card-link text-center">
                 <a  class="btn btn-outline-primary mt-3" href="{{ path("tricks_display", {'slug' : trick.slug}) }}" >{{ trick.name }}</a>
             </div>
-            {% if app.user %}
+            {% if app.user and (trick.users.id == app.user.id) %}
                 <div class="mt-1 text-center">
                     <a href="">
                         <i class="fas fa-edit"></i>

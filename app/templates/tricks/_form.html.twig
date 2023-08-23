@@ -1,7 +1,5 @@
 {# on affiche l'image à la une que si on est en edition #}
 {% if app.request.attributes.get('_route') == 'edit_trick' %}
-	{% include "partials/_main_picture.html.twig" with {"tricks" : trick.image, "display" : "bg"} %}
-
 	{% for img in images %}
 		{% if img.isMain == 1 %}
 			<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
@@ -26,12 +24,12 @@
 		{# on affiche les images et les vidéos si on est en edition #}
 		{% if app.request.attributes.get('_route') == 'edit_trick' %}
 			{% if trick.image|length > 0 or trick.video|length > 0 %}
-				<div class="text-center mt-5 d-sm-none d-block">
-					<button type="button" class="btn btn-show">Afficher les médias</button>
-				</div>
-				<div class="text-center mt-5">
-					<button type="button" class="btn btn-mute">Cacher les médias</button>
-				</div>
+				<div class="text-center mt-5 d-block">
+            <button type="button" class="btn btn-show">Afficher les médias</button>
+        </div>
+        <div class="text-center mt-5">
+            <button type="button" class="btn btn-mute">Cacher les médias</button>
+        </div>
 				<section class="show-medias">
 					<div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 my-5 justify-content-center">
 						{% for media in trick.image %}
@@ -57,7 +55,6 @@
 													<i class="fa-solid fa-rotate"></i>
 												</a>
 												{% endif %}
-											{# {% endfor %} #}
 										</div>
 									</div>
 								</div>
@@ -72,7 +69,7 @@
 									<iframe width="280" height="158" allowfullsreen src="{{ video.url }}" frameborder="0"></iframe>
 								</div>
 								<div class="card-text mt-5 mb-3 mx-auto">
-									<a {# href="{{path('delete_video', {id: video.id})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')" #}>
+									<a href="{{path('delete_video', {id: video.id})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')">
 										<i class="fa-solid fa-trash-can"></i>
 									</a>
 								</div>
@@ -97,7 +94,7 @@
 			<div class="col text-white">
 				<div class="mb-3">
 					<span>Ajouter une vidéo</span>
-						<button type="button" class="btn btn_add_video_link" data-collection-holder-class="videos"></button>
+						<button type="button" class="btn btn_add_video_link" data-collection-holder-class="videos"><i class="fas fa-plus"></i></button>
 					</div>
 				<div class="form">
 					<ul class="videos" data-index="{{ form.video|length > 0 ? form.video|last.vars.name + 1 : 0 }}" data-prototype="{{ form_row(form.video.vars.prototype)|e('html_attr') }}"></ul>
