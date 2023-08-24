@@ -10,6 +10,8 @@
                 <h3 class="my-3">Mes informations :</h3>
                 <p class="pt-3">Mon pseudo : {{user.username}}</p>
                 <p>Mon adresse mail : {{user.email}}</p>
+                <p>Prénom : {{user.firstname}}</p>
+                <p>Nom : {{user.lastname}}</p>
                 <p>Mon avatar :
                     {% if user.picture %}
                     <img src="{{asset('assets/uploads/avatars/'~ user.picture)}}"

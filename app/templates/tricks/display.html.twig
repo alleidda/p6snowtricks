@@ -47,12 +47,6 @@
 			</div>
 		</div>
 		{% if trick.image|length > 1 or trick.video|length > 0 %}
-			<div class="text-center mt-5 d-sm d-block">
-				<button type="button" class="btn btn-show">Afficher les médias</button>
-			</div>
-			<div class="text-center mt-5">
-				<button type="button" class="btn btn-mute">Cacher les médias</button>
-			</div>
 			<section class="show-image">
 				<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 my-5">
 					{% include "partials/_main_picture.html.twig" with { "tricks" : trick.image, "display" : "all"} %}

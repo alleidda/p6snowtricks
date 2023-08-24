@@ -4,15 +4,20 @@
 
 {% block body %}
 	
-		<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh">
-			{# <a href="#tricks-container">
+		<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh;">
+		 <h1 class="text-center text-info" style="width: 100%; height : 50%;">Partager vos tricks avec la communauté</h1>
+			<a href="#tricks-container">
 				<i class="fa-sharp fa-regular fa-arrow-down"></i>
-			</a> #}
+			</a>
 		</div>
          
 <main class="container">
 
   {% if tricks is not empty %}
+  <div>
+  <h1 class="h2 pb-5 text-center mt-3">Liste de vos tricks</h1>
+  </div>
+
 		<section class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 my-3">
       
 			{% for trick in tricks|slice(0, 6) %}
@@ -54,11 +59,13 @@
 		</section>
         {% else %}
             <div class=" row text-center mt-3">
-            <p>Vous n'avez ajouté aucun trick pour l'instant </p>
+           <div>
+  <p class="fs-4 pb-3 text-center mt-3">Vous n'avez ajouté aucun trick pour l'instant</p>
+  </div>
             {% if app.user and app.user.isVerified %}
     <div >
 	<button class="btn bg-info">
-    <a href="{{path('tricks_add')}}" class="fw-bold">Ajouter un trick</a> 
+    <a href="{{path('tricks_add')}}" class="fw-bold">Ajouter un trick !</a> 
 	</button>
 	<br>
     </div>
