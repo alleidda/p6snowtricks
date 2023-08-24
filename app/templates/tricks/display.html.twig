@@ -127,8 +127,8 @@
 											le
 											{{comment.createdAt|date('d/m/Y')}}</div>
 									</div>
-                                    {% if app.user and (comment.user.id == app.user.id) %}
 									<div>{{comment.content}}</div>
+                                    {% if app.user and (comment.user.id == app.user.id) %}
                                      <div class="pull-right">
                         <a href="{{ path('comment_delete', {'id':comment.id}) }}"><i class="fas fa-trash"></i></a>
                     </div>
