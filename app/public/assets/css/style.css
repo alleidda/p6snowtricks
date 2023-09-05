@@ -135,7 +135,7 @@ li * {
     
 }
 ul *{
-    list-style-type:none;
+    /* list-style-type:none; */
     margin-left: -0.3em;
     width: auto;
     
@@ -175,3 +175,35 @@ max-width: 600px;
   background: linear-gradient(to bottom, #a3dae0 0%, #6FCACB 50%, #4181ac 100%);
   border-radius: 5px;
 }
+
+
+.page {
+  padding: 10px;
+  border: 2px solid #304757;
+  margin-left: 10px;
+ 
+}
+.current {
+  padding: 10px;
+  text-decoration: underline;
+  border: 2px solid #304757;
+  background-color: rgb(195, 206, 206);
+  margin-left: 10px;
+}
+.next {
+ padding: 10px;
+}
+
+.last {
+  padding: 10px;
+}
+
+.first {
+  padding: 10px;
+
+}
+
+.previous {
+  padding: 10px;
+}
+

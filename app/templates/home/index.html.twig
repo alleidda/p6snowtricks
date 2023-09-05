@@ -3,100 +3,77 @@
 {% endblock %}
 
 {% block body %}
-	
-		<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh;">
-		 <h1 class="text-center text-info" style="width: 100%; height : 50%;">Partager vos tricks avec la communauté</h1>
-			<a href="#tricks-container">
-				<i class="fa-sharp fa-regular fa-arrow-down"></i>
-			</a>
-		</div>
-         
-<main class="container">
 
-  {% if tricks is not empty %}
-  <div>
-  <h1 class="h2 pb-5 text-center mt-5">Liste de vos tricks</h1>
-  </div>
+	<div class="bg-image" style="background: center/cover url('img/homeimage.jpg'); height: 100vh;">
+		<h1 class="text-center text-info" style="width: 100%; height : 50%;">Partager vos tricks avec la communauté</h1>
+		<a href="#tricks-container">
+			<i class="fa-sharp fa-regular fa-arrow-down"></i>
+		</a>
+	</div>
 
-		<section class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 my-3  pb-5">
-      
-			{% for trick in tricks|slice(0, 6) %}
-				<div class="col">
-					<div class="card h-100 mb-3 shadow-sm">
-						{% if trick.image is not empty %}
-							{% for img in trick.image %}
-								{% if img.isMain == 1 %}
-									<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
-								{% endif %}
+	<main class="container">
 
-							{% endfor %}
-                             {% else %}
-                                 <img class="display-top img-fluid" src=" {{asset('img/mainImage.jpg')}}" alt="">
-						{% endif %}
-                    
-						<div class="card-text">
-							<div class="row mt-3 ms-3">
-								<div class="col-6">
-									<a href="{{ path('tricks_display', {'slug' : trick.slug})}}">
-										<h5 class="card-title">{{trick.name}}</h5>
-									</a>
-								</div>
-                                {% if app.user and trick.users.id == app.user.id %}
-                               
-								<div class="col-6">
-									{% include "partials/_link_trick.html.twig" with { "user" : app.user, "class1" : "row", "class2" :
+		{% if pagination is not empty %}
+			<div>
+				<h1 class="h2 pb-5 text-center mt-5">{{ titre }}</h1>
+			</div>
+
+			<section class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4 my-3  pb-5">
+
+				{% for trick in pagination|slice(0, 6) %}
+					<div class="col">
+						<div class="card h-100 mb-3 shadow-sm">
+							{% if trick.image is not empty %}
+								{% for img in trick.image %}
+									{% if img.isMain == 1 %}
+										<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
+									{% endif %}
+
+								{% endfor %}
+							{% else %}
+								<img class="display-top img-fluid" src=" {{asset('img/mainImage.jpg')}}" alt="">
+							{% endif %}
+
+							<div class="card-text">
+								<div class="row mt-3 ms-3">
+									<div class="col-6">
+										<a href="{{ path('tricks_display', {'slug' : trick.slug})}}">
+											<h5 class="card-title">{{trick.name}}</h5>
+										</a>
+									</div>
+									{% if app.user and trick.users.id == app.user.id %}
+										<div class="col-6">
+											{% include "partials/_link_trick.html.twig" with { "user" : app.user, "class1" : "row", "class2" :
               "col-6", "edit" : "" , "delete": ""}%}
+										</div>
+									{% endif %}
+
 								</div>
-                                {% endif %}
-                                
 							</div>
 						</div>
 					</div>
-				</div>
-			{% endfor %}
-            </div>
-             
-		</section>
-        {% else %}
-            <div class=" row text-center mt-3">
-           <div>
-  <p class="fs-4 pb-3 text-center mt-3">Vous n'avez ajouté aucun trick pour l'instant</p>
-  </div>
-            {% if app.user and app.user.isVerified %}
-    <div >
-	<button class="btn bg-info">
-    <a href="{{path('tricks_add')}}" class="fw-bold">Ajouter un trick !</a> 
-	</button>
-	<br>
-    </div>
-    </div>
-    {% endif %}
-            {% endif %}
+				{% endfor %}
+			</div>
 
-		<section class="row row-cols-1 row-cols-md-5 g-4 my-3" id="tricks-container"></section>
-		{% if tricks|length >5 %}
-			<div class="text-center">
-				<button id="load-more" class="btn my-5">
-					<i class="fa-regular fa-spinner"></i>
-					Charger plus</button>
+		</section>
+
+	{% else %}
+		<div class=" row text-center mt-3">
+			<div>
+				<p class="fs-4 pb-3 text-center mt-3">Vous n'avez ajouté aucun trick pour l'instant</p>
+			</div>
+			{% if app.user and app.user.isVerified %}
+				<div>
+					<button class="btn bg-info">
+						<a href="{{path('tricks_add')}}" class="fw-bold">Ajouter un trick !</a>
+					</button>
+					<br>
+				</div>
 			</div>
 		{% endif %}
+	{% endif %}
+{{ knp_pagination_render(pagination) }}
+	<section class="row row-cols-1 row-cols-md-5 g-4 my-3" id="tricks-container"></section>
+	
 
-		<script>
-			const loadMoreBtn = document.getElementById('load-more');
-let offset = 0;
-loadMoreBtn.addEventListener('click', function () {
-offset += 5;
-const url = '{{ path('more_tricks', {'offset': 0}) }}'.replace('0', offset);
-fetch(url).then(response => response.json()).then(data => {
-const tricksContainer = document.getElementById('tricks-container');
-tricksContainer.insertAdjacentHTML('beforeend', data.html);
-console.log(document.getElementsByClassName("card-img-top").length % 5)
-if (document.getElementsByClassName("card-img-top").length == {{ tricks|length }}) {
-loadMoreBtn.style.display = 'none';
-}
-});
-});
-		</script>
-	</main>
-{% endblock %}
+</main>{% endblock %}

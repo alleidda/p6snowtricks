@@ -18,6 +18,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,14 +29,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TricksController extends AbstractController
 {
     #[Route('/tricks', name: 'tricks_all')]
-    public function index(TrickRepository $tricks, ImageRepository $image): Response
+    public function index(TrickRepository $trickRepository, Request $request, PaginatorInterface $paginator ): Response
     {
+            $pagination = $paginator->paginate(
+            $trickRepository->paginationQuery(),
+            $request->query->get('page', 1),
+            8
+            );
+
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks->findAll()
+            'pagination' => $pagination
         ]);
     }
 
-
+    
     #[Route('/tricks/{slug}', name: 'tricks_display')]
     public function display(
         Trick $tricks,
@@ -83,41 +90,6 @@ class TricksController extends AbstractController
         );
     }
 
-/*     #[Route('/tricks/{slug}', name: 'tricks_display')]
-    public function display(Trick $trick, CommentRepository $commentsRepository, EntityManagerInterface $entityManager, ImageRepository $image, Request $request): Response
-    {
-        if ($user && $user->getIsVerified()) {
-        $user = $this->getUser();
-        $comment = new Comment();
-        $form = $this->createForm(CommentsFormType::class, $comment);
-        $form->handleRequest($request);
-
-         if ($form->isSubmitted() && $form->isValid()) {
-                $comment = $form->getData();
-                $comment->setUser($user);
-                $comment->setTrick($trick);
-                $entityManager->persist($comment);
-                $entityManager->flush();
-         }
-
-        //On va chercher le numéro de page dans l'url
-        $page = $request->query->getInt('page', 1);
-        $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 10);
-
-        //On va chercher la liste des produits de la catégorie
-        $comments = $commentsRepository->findCommentPaginated($page, $trick->getSlug(), 4);
-        }
-      
-
-        return $this->render('tricks/display.html.twig', [
-            'trick' => $trick,
-            'comments' => $trick->getComments(),
-            'images' => $trick->getImage(),
-            'user' => $trick->getUsers(),
-            'form' => $form->createView()
-            
-        ]);
-    } */
 
 
     

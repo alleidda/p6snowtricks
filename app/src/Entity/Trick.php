@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]

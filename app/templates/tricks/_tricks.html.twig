@@ -15,9 +15,7 @@
             </div>
             {% if app.user and (trick.users.id == app.user.id) %}
                 <div class="mt-1 text-center">
-                    <a href="">
-                        <i class="fas fa-edit"></i>
-                    </a>
+                      <a href=" {{path('edit_trick', {'slug' : trick.slug})}}" ><i class="fas fa-edit"></i></a>
                     <a href="{{path('delete_trick', {'slug' : trick.slug})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')">
                         <i class="fas fa-trash-alt"></i>
                     </a>
