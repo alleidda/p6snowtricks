@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modification {{trick.name}}{% endblock %}
+{% block body %}
+    <main class="container">
+        <section>
+            <h2 class="text-center mt-5">Modifier la figure : {{trick.name}}</h2>
+            <div class= "mt-3" >
+            {% include "tricks/_form.html.twig" with {'button_label': 'Modifier'} %}
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block javascripts %}
+    <script src=" {{asset('assets/js/delete.js')}}" defer></script>
+    <script src=" {{asset('assets/js/show.js')}}" defer></script>
+{% endblock %}

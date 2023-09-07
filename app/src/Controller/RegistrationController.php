@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Security\UsersAuthentificatorAuthenticator;
+use App\Service\PictureService;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UsersAuthentificatorAuthenticator $authenticator, EntityManagerInterface $entityManager, SendMailService $mail, JWTService $jwt): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UsersAuthentificatorAuthenticator $authenticator, PictureService $pictureService, EntityManagerInterface $entityManager, SendMailService $mail, JWTService $jwt): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,6 +35,16 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            
+            if ($form->get('picture')->getData()) {
+                $avatar = $form->get('picture')->getData();
+                $folder = 'avatars';
+                $file = $pictureService->add($avatar, $folder, 300, 300);
+                $user->setPicture($file);
+            }
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -138,7 +149,7 @@ class RegistrationController extends AbstractController
         $mail->send(
             'no-reply@monsite.net',
             $user->getEmail(),
-            'Activation de votre compte sur le site e-commerce',
+            'Activation de votre compte sur le site ',
             'register',
             compact('user', 'token')
         );

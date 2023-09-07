@@ -29,7 +29,9 @@ class TrickFixtures extends Fixture
 
            
             $category = $this->getReference('cat-'. rand(1, 3));
-            $trick->setcategory($category);
+            $trick->setCategory($category);
+            $users = $this->getReference('usr-'. rand(1, 5));
+            $trick->setUsers($users);
 
             $this->setReference('trc-'.$trc, $trick);
             $manager->persist($trick);

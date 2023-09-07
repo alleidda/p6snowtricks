@@ -1,0 +1,127 @@
+{# on affiche l'image à la une que si on est en edition #}
+{% if app.request.attributes.get('_route') == 'edit_trick' %}
+	{% for img in images %}
+		{% if img.isMain == 1 %}
+			<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
+		{% endif %}
+	{% endfor %}
+{% endif %}
+<div class="row justify-content-center mb-5">
+	<div class="col shadow my-5 bg-form">
+		{{form_start(form)}}
+		<div class="pt-4 p-lg-5">
+			<div class="row mx-lg-5">
+				<div class="col-auto">
+					{{form_row(form.name)}}
+				</div>
+			</div>
+			<div class="row mx-lg-5">{{form_row(form.description)}}</div>
+			<div class="row mx-lg-5">
+				<div class="col-auto">{{form_row(form.category)}}</div>
+			</div>
+		</div>
+
+		{# on affiche les images et les vidéos si on est en edition #}
+		{% if app.request.attributes.get('_route') == 'edit_trick' %}
+			{% if trick.image|length > 0 or trick.video|length > 0 %}
+			<div class="text-center mt-5 d-block medias-show">
+            <button type="button" class="btn btn-mute">Cacher les médias</button>
+        	</div>
+				<div class="text-center mt-5 medias-show">
+            <button type="button" class="btn btn-show">Afficher les médias</button>
+        </div>
+				<section class="show-medias">
+					<div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 my-5 justify-content-center">
+						{% for media in trick.image %}
+							<div class="col mb-3 cart">
+								<div class="card h-100 ">
+									<img src=" {{asset('assets/uploads/tricks/mini/300x300-' ~ media.path)}} " class="card-img-top image-fluid" alt="{{trick.name}}">
+									<div class="card-text">
+										<div class="row my-3 ms-3">
+											<div class="col-3">
+												<a href=" {{path('delete_image', {id: media.id})}} " data-delete data-token="{{csrf_token('delete' ~ media.id )}}">
+													<i class="fa-solid fa-trash-can"></i>
+												</a>
+											</div>
+											<div class="col">
+											
+													{% if media.isMain == 1 %}
+														A la une
+														<i class="fa-solid fa-heart"></i>
+													
+												
+											{% else %}
+												<a href=" {{path('main_picture', {id: media.id})}} ">Mettre à la une
+													<i class="fa-solid fa-rotate"></i>
+												</a>
+												{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+
+					{% for video in trick.video %}
+						<div class="col mb-3">
+							<div class="card h-100">
+								<div class="ratio ratio-16x9 mt-5 ">
+									<iframe width="280" height="158" allowfullsreen src="{{ video.url }}" frameborder="0"></iframe>
+								</div>
+								<div class="card-text mt-5 mb-3 mx-auto">
+									<a href="{{path('delete_video', {id: video.id})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')">
+										<i class="fa-solid fa-trash-can"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+		{% else %}
+			<div class="text-center my-3">
+				Il n'y a pas de médias pour cette figure.
+			</div>
+		{% endif %}
+	{% endif %}
+	<div class="p-md-5">
+		<div class="row mx-lg-5">
+			<div class="col col-lg-6 text-white">
+				{{form_row(form.images)}}
+			</div>
+		</div>
+		<div class="row mx-lg-5 mt-3">
+			<div class="col text-white">
+				<div class="mb-3">
+					<span>Ajouter une vidéo</span>
+						<button type="button" class="btn btn_add_video_link" data-collection-holder-class="videos"><i class="fas fa-plus"></i></button>
+					</div>
+				<div class="form">
+					<ul class="videos" data-index="{{ form.video|length > 0 ? form.video|last.vars.name + 1 : 0 }}" data-prototype="{{ form_row(form.video.vars.prototype)|e('html_attr') }}"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="d-none">
+		{{form_row(form.video)}}
+	</div>
+	<div class="row my-5">
+		{% if app.request.attributes.get('_route') == 'edit_trick' %}
+			<div class="col text-center">
+				<button type="submit" class="btn btn-primary">
+					{{button_label|default('Ajouter')}}
+				</button>
+			</div>
+			<div class="col text-center">
+				<a href="{{path('delete_trick', {'slug' : trick.slug})}}" onclick="return confirm('Etes vous sur de vouloir supprimer?')" class="btn btn-primary">Supprimer</a>
+			</div>
+		</div>
+	{% else %}
+		<div class="col text-center">
+			<button type="submit" class="btn btn-primary">
+				{{button_label|default('Ajouter')}}
+			</button>
+		</div>
+	{% endif %}
+	{{form_end(form)}}
+</div></div>

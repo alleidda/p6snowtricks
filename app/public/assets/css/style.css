@@ -1,0 +1,209 @@
+
+:root {
+  --couleur-principale: #304757;
+  --couleur-secondaire: #57819e;
+}
+body {
+  color:var(--couleur-principale);
+}
+.bg-image {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+.bg-image h1 {
+    margin: 0;
+    position: absolute;
+    top: 60%;
+    
+}
+.bg-image a {
+  position: absolute;
+  right: 1%;
+  bottom: 0%;
+}
+a {
+  text-decoration: none;
+  color: var(--couleur-principale);
+}
+a:hover {
+  color: var(--couleur-secondaire);
+}
+
+.btn {
+  background-color: var(--couleur-principale);
+  color: aliceblue;
+  border: none;
+}
+
+.btn:hover {
+  background-color: var(--couleur-secondaire);
+  border: none;
+}
+
+@media screen and (max-width: 480px) {
+    .bg-image {
+      height: 22rem;
+      
+    }
+    .bg-image h1{
+        font-size: 200%;
+    }
+    .bg-image a{
+      font-size: 200%;
+    }
+    .edit-icon {
+      font-size: 20px;
+      top : 10px; 
+      right: -10px;
+      padding: 3px;
+      background-color: aliceblue;
+      position :absolute;
+    }
+    .delete-icon {
+      font-size: 20px;
+      top : 10px;
+      right: 20px;
+      padding: 3px;
+      background-color: aliceblue;
+      position :absolute;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .bg-image {
+      height: 22rem;
+      
+    }
+    .bg-image h1{
+        font-size: 300%;
+    }
+    .bg-image a{
+      font-size: 200%;
+    }
+    .edit-icon {
+      font-size: 30px;
+      top : 10px; 
+      right: 40px;
+      padding: 3px;
+      background-color: aliceblue;
+      position :absolute;
+    }
+    .delete-icon {
+      font-size: 30px;
+      top : 10px;
+      right: 90px;
+      padding: 3px;
+      background-color: aliceblue;
+      position :absolute;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .bg-image {
+      height: 85vh;
+      
+    }
+    .bg-image h1{
+      font-size: 500%;
+    }
+    .bg-image a{
+      font-size: 300%;
+    }
+    .edit-icon {
+      font-size: 200%;
+      top : 10%; 
+      right: 1%;
+      background-color: white;
+      position :absolute;
+    }
+    .delete-icon {
+      font-size: 200%;
+      top : 10%; 
+      right: 5%;
+      background-color: white;
+      position :absolute;
+    }
+  }
+
+li * {
+    /* display:inline-block; */
+    margin:0 10px;
+    
+    
+    
+}
+ul *{
+    /* list-style-type:none; */
+    margin-left: -0.3em;
+    width: auto;
+    
+  }
+
+
+.card-img-top{
+max-height: 600px;
+max-width: 600px;
+}
+
+.page-item.active .page-link{
+  background-color: var(--couleur-principale);
+  border-color: var(--couleur-principale);
+  color: white;
+}
+.page-link {
+  color: var(--couleur-principale);
+}
+.btn-mute {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .show-medias {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .show-medias {
+    display: block;
+  }
+}
+
+.bg-form {
+  background: linear-gradient(to bottom, #a3dae0 0%, #6FCACB 50%, #4181ac 100%);
+  border-radius: 5px;
+}
+
+
+.page {
+  padding: 10px;
+  border: 2px solid #304757;
+  margin-left: 10px;
+ 
+}
+.current {
+  padding: 10px;
+  text-decoration: underline;
+  border: 2px solid #304757;
+  background-color: rgb(195, 206, 206);
+  margin-left: 10px;
+}
+.next {
+ padding: 10px;
+}
+
+.last {
+  padding: 10px;
+}
+
+.first {
+  padding: 10px;
+
+}
+
+.previous {
+  padding: 10px;
+}
+

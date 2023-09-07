@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajout Trick{% endblock %}
+{% block body %}
+    <main class="container bg-light">
+        <section class="row">
+            <div class="col-12">
+                <h2 class="text-center my-5">Ajouter une nouvelle figure</h2>
+                {% include "tricks/_form.html.twig" %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

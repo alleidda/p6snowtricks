@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 class Video
@@ -20,6 +21,10 @@ class Video
     private ?Trick $trick = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Url(
+        protocols: ['https'],
+        message: 'The url {{ value }} is not a valid url',
+    )]
     private ?string $url = null;
 
     public function getId(): ?int

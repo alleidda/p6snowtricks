@@ -12,7 +12,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cette adresse mail')]
+#[UniqueEntity(fields: ['username'], message: 'Ce pseudo existe déjà !')]
 
 
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
@@ -65,11 +66,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Trick::class, orphanRemoval: true)]
+    private Collection $tricksUser;
+
 
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->tricksUser = new ArrayCollection();
     }
 
 
@@ -216,6 +221,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFullname(): ?string
+    {
+        return ($this->firstname. ' '. $this->lastname);
+    }
+
+    public function setFullname(string $fullname): self
+    {
+        $this->firstname. ' '. $this->lastname = $fullname;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Comment>
      */
@@ -254,6 +271,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trick>
+     */
+    public function getTricksUser(): Collection
+    {
+        return $this->tricksUser;
+    }
+
+    public function addTricksUser(Trick $tricksUser): self
+    {
+        if (!$this->tricksUser->contains($tricksUser)) {
+            $this->tricksUser->add($tricksUser);
+            $tricksUser->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTricksUser(Trick $tricksUser): self
+    {
+        if ($this->tricksUser->removeElement($tricksUser)) {
+            // set the owning side to null (unless already changed)
+            if ($tricksUser->getUsers() === $this) {
+                $tricksUser->setUsers(null);
+            }
+        }
 
         return $this;
     }
