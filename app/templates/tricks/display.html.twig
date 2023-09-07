@@ -9,11 +9,15 @@
 				{% if trick.image is not empty%}
 					{% for img in trick.image %}
 						{% if img.isMain == 1 %}
+						<div class="card mt-5">
 							<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
+							</div>
 						{% endif %}
 					{% endfor %}
 				{% else %}
+				<div class="card mt-5">
 					<img class="display-top img-fluid" src="{{asset('img/mainImage.jpg')}}" alt="">
+					</div>
 				{% endif %}
 			</div>
             
@@ -24,7 +28,7 @@
 			</div>
             {% endif %}
 			<div class="card-body text-center">
-				<h2 class="card-title text-center">{{ trick.name}}</h2>
+				<h2 class="card-title text-center mt-5">{{ trick.name}}</h2>
 				<div class="row justify-content-md-center my-5">
 					<div class="col">
 						<p class="card-text mb-2 text-muted">Ajoutée le :

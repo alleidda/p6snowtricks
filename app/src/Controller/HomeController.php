@@ -28,7 +28,7 @@ class HomeController extends AbstractController
              $pagination = $paginator->paginate(
                $userTricks,
                 $request->query->get('page', 1),
-                2
+                5
                 );
             
         return $this->render('home/index.html.twig', [
@@ -40,7 +40,7 @@ class HomeController extends AbstractController
             $pagination = $paginator->paginate(
                 $trickRepository->paginationQuery(),
                 $request->query->get('page', 1),
-                4
+                5
                 );
             return $this->render('home/index.html.twig', [
                 'titre' => 'Liste des tricks',
