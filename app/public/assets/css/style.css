@@ -23,11 +23,22 @@ body {
   right: 1%;
   bottom: 0%;
 }
+.images {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
+}
+
 a {
   text-decoration: none;
   color: var(--couleur-principale);
 }
 a:hover {
+  color: var(--couleur-secondaire);
+}
+
+.page:hover {
   color: var(--couleur-secondaire);
 }
 
@@ -179,14 +190,14 @@ max-width: 600px;
 
 .page {
   padding: 10px;
-  border: 2px solid #304757;
+  border: 2px solid var(--couleur-principale);
   margin-left: 10px;
  
 }
 .current {
   padding: 10px;
   text-decoration: underline;
-  border: 2px solid #304757;
+  border: 2px solid var(--couleur-principale);
   background-color: rgb(195, 206, 206);
   margin-left: 10px;
 }

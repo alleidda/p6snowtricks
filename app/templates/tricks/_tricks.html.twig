@@ -3,11 +3,15 @@
       {% if trick.image is not empty %}
 					{% for img in trick.image %}
 						{% if img.isMain == 1 %}
+                        <div class="images">
 							<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
+                            </div>
 						{% endif %}
 					{% endfor %}
 				{% else %}
+                  <div class="images">
 					<img class="display-top img-fluid" src="{{asset('img/mainImage.jpg')}}" alt="">
+                    </div>
 				{% endif %}
         <div class="card-body">
             <div class="card-link text-center">

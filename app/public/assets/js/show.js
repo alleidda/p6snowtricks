@@ -2,8 +2,6 @@ const showMedias = document.querySelector(".show-medias");
 const btnMute = document.querySelector(".btn-mute");
 const btnShow = document.querySelector(".btn-show");
 
-/* showMedias.style.display = "none"; */
-
 btnMute.addEventListener("click", () => {
   showMedias.style.display = "none";
   btnMute.style.display = "none";
