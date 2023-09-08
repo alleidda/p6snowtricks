@@ -3,9 +3,7 @@
       {% if trick.image is not empty %}
 					{% for img in trick.image %}
 						{% if img.isMain == 1 %}
-                        <div class="images">
 							<img class="display-top img-fluid" src=" {{asset('assets/uploads/tricks/') ~ img.path}}" alt="">
-                            </div>
 						{% endif %}
 					{% endfor %}
 				{% else %}
