@@ -167,6 +167,7 @@ class TricksController extends AbstractController
         EntityManagerInterface $entityManager,
         PictureService $pictureService,
         VideoLinkService $videoLinkService,
+        SluggerInterface $slugger,
     ): Response {
         // We check if the user can edit with the voter
         $user = $this->getUser();
@@ -175,20 +176,19 @@ class TricksController extends AbstractController
         $this->denyAccessUnlessGranted('TRICK_EDIT', $trick);
 
         $form = $this->createForm(AddTrickFormType::class, $trick);
-
         $form->handleRequest($request);
         $action = "edit";
-
+        $slug = $slugger->slug($trick->getName());
+        $trick->setSlug($slug);
         $params = ['slug' => $trick->getSlug()];
         
-               // dd($trick->getSlug());
         if ($form->isSubmitted() && $form->isValid()) {
             $this->handleData($form, $pictureService, $trick, $entityManager, $videoLinkService, $action);
 
 
             $this->addFlash('success', 'Figure modifiée avec succès');
 
-            return $this->redirectToRoute('edit_trick', ['slug' => $trick->getSlug()]);
+            return $this->redirectToRoute('edit_trick', $params);
         }
 
         return $this->render(
@@ -307,8 +307,10 @@ class TricksController extends AbstractController
     private function handleData($form, $pictureService, $trick, $entityManager, $videoLinkService, $action)
     {
 
+       
+
         $images = $form->get('images')->getData();
-//dd($form->get('video')->getData());
+
 
 
           //    We get the videos
